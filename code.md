@@ -239,3 +239,4 @@ Paul Zabotto Website/
 - Nommer les pages projets en **kebab-case** : `mon-projet.html`.
 - Nommer les pages pays en **ISO 3166-1 alpha-2 lowercase** : `jp.html`, `br.html`.
 - Mettre à jour `VISITED_COUNTRIES` dans `travel-map.js` **en même temps** que la création du fichier pays.
+
