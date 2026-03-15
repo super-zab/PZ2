@@ -1,0 +1,35 @@
+/* ============================================================
+   PAGE & ELEMENT TRANSITIONS
+   ============================================================ */
+
+/* Page enter transition — applied to <main> on load */
+.page-enter {
+  animation: pageEnter var(--transition-slow) ease forwards;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page exit — triggered by JS before navigation */
+.page-exit {
+  animation: pageExit var(--transition-base) ease forwards;
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}

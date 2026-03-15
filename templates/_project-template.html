@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--
+  ┌──────────────────────────────────────────────────────────────┐
+  │  PROJECT PAGE TEMPLATE                                        │
+  │  HOW TO USE:                                                  │
+  │  1. Copy this file → /developer/projects/your-project.html   │
+  │  2. Find every TODO comment and fill in the real content      │
+  │  3. Add a card for this project in /developer/index.html      │
+  └──────────────────────────────────────────────────────────────┘
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- TODO: update description -->
+  <meta name="description" content="TODO — Short project description for SEO." />
+
+  <!-- TODO: update title -->
+  <title>TODO Project Title — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Path is ../../css because this file lives in /developer/projects/ -->
+  <link rel="stylesheet" href="../../css/main.css" />
+</head>
+
+<body>
+
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="../../index.html" class="nav-logo">Paul Zabotto</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../../developer/index.html" class="nav-link is-active" aria-current="page">Developer</a></li>
+        <li><a href="../../hobbies/index.html"   class="nav-link">Hobbies</a></li>
+        <li><a href="../../contact/index.html"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <div class="container">
+
+      <!-- ── BACK LINK ──────────────────────────── -->
+      <div style="padding-top: calc(var(--nav-height) + var(--space-8)); margin-bottom: var(--space-8);">
+        <a href="../../developer/index.html" class="btn btn-ghost btn-sm">
+          &larr; All projects
+        </a>
+      </div>
+
+      <!-- ── PROJECT HEADER ───────────────────────── -->
+      <header style="margin-bottom: var(--space-12);">
+
+        <!-- TODO: update tags -->
+        <div class="tags will-animate" style="margin-bottom: var(--space-4);">
+          <span class="tag">TODO Tag 1</span>
+          <span class="tag">TODO Tag 2</span>
+        </div>
+
+        <!-- TODO: update title -->
+        <h1 class="will-animate" data-delay="1" style="
+          font-size: clamp(var(--font-size-xl), 4vw, var(--font-size-2xl));
+          font-weight: 700;
+          margin-bottom: var(--space-4);
+        ">
+          TODO Project Title
+        </h1>
+
+        <!-- TODO: update year and context -->
+        <p class="will-animate text-muted text-sm" data-delay="2">
+          <span style="font-family: var(--font-mono);">2024</span>
+          &nbsp;&mdash;&nbsp;
+          TODO context (e.g. "Academic research", "Personal project", "Internship")
+        </p>
+
+      </header>
+
+      <!-- ── MAIN CONTENT ─────────────────────────── -->
+      <div class="will-animate" data-delay="3" style="
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: var(--space-12);
+        align-items: start;
+        padding-bottom: var(--space-24);
+      ">
+
+        <!-- LEFT — Project body -->
+        <article style="max-width: 680px;">
+
+          <!-- TODO: add project image if available
+          <figure style="margin-bottom: var(--space-8); border-radius: var(--radius-lg); overflow: hidden;">
+            <img src="../../assets/images/projects/your-project.jpg" alt="TODO project screenshot" />
+          </figure>
+          -->
+
+          <!-- TODO: write the project description -->
+          <section style="margin-bottom: var(--space-8);">
+            <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+              Overview
+            </h2>
+            <p style="color: var(--color-text-muted); line-height: var(--line-height-normal);">
+              TODO — Describe the project: what problem does it solve? Why is it interesting?
+            </p>
+          </section>
+
+          <section style="margin-bottom: var(--space-8);">
+            <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+              Approach
+            </h2>
+            <p style="color: var(--color-text-muted); line-height: var(--line-height-normal);">
+              TODO — Describe the technical approach, methodology, or design decisions.
+            </p>
+          </section>
+
+          <section>
+            <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+              Results
+            </h2>
+            <p style="color: var(--color-text-muted); line-height: var(--line-height-normal);">
+              TODO — What was the outcome? Include metrics, demo links, or key findings.
+            </p>
+          </section>
+
+        </article>
+
+        <!-- RIGHT — Sidebar metadata -->
+        <aside style="
+          background-color: var(--color-surface);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          padding: var(--space-6);
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-6);
+        ">
+
+          <!-- TODO: fill in metadata -->
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Year</p>
+            <p style="font-size: var(--font-size-sm); color: var(--color-text);">TODO 2024</p>
+          </div>
+
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Stack</p>
+            <!-- TODO: list technologies used -->
+            <div class="tags">
+              <span class="tag">TODO</span>
+              <span class="tag">TODO</span>
+            </div>
+          </div>
+
+          <!-- TODO: uncomment and fill in if a PDF exists
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Paper</p>
+            <a href="../../assets/pdfs/TODO-paper-name.pdf" class="btn btn-ghost btn-sm" download>
+              Download PDF
+            </a>
+          </div>
+          -->
+
+          <!-- TODO: uncomment and fill in if a GitHub repo exists
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Source</p>
+            <a href="https://github.com/yourusername/TODO-repo" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer">
+              View on GitHub
+            </a>
+          </div>
+          -->
+
+        </aside>
+
+      </div><!-- /grid -->
+
+    </div><!-- /container -->
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="text-sm text-muted">
+        &copy; <span id="footer-year"></span> Paul Zabotto
+      </p>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"               defer></script>
+  <script src="../../js/core/animations.js"        defer></script>
+  <script src="../../js/components/transitions.js" defer></script>
+  <script src="../../js/main.js"                   defer></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

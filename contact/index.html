@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Get in touch with Paul Zabotto." />
+
+  <title>Contact — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════ -->
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="../index.html" class="nav-logo">Paul Zabotto</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../developer/index.html" class="nav-link">Developer</a></li>
+        <li><a href="../hobbies/index.html"   class="nav-link">Hobbies</a></li>
+        <li><a href="../contact/index.html"   class="nav-link is-active" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════ -->
+  <main id="main-content">
+    <div class="container">
+
+      <!-- ── PAGE HEADER ──────────────────────────── -->
+      <header class="contact-header">
+        <p class="contact-header-label will-animate">Contact</p>
+        <h1 class="contact-header-title will-animate" data-delay="1">Let's Connect</h1>
+        <p class="contact-header-desc will-animate" data-delay="2">
+          Whether it's a project, a question, or just a conversation —
+          I'm always happy to hear from you.
+        </p>
+      </header>
+
+      <!-- ── TWO-COLUMN LAYOUT ─────────────────────── -->
+      <div class="contact-layout">
+
+        <!-- LEFT — Direct links ──────────────────── -->
+        <div class="will-animate" data-delay="3">
+
+          <div class="contact-links">
+
+            <!-- Email -->
+            <!-- Update href with your real email address -->
+            <a href="mailto:your@email.com" class="contact-link-item">
+              <span class="contact-link-icon" aria-hidden="true">&#9993;</span>
+              <div>
+                <div class="contact-link-label">Email</div>
+                <div class="contact-link-value">your@email.com</div>
+              </div>
+            </a>
+
+            <!-- GitHub -->
+            <!-- Update href with your GitHub profile URL -->
+            <a
+              href="https://github.com/yourusername"
+              class="contact-link-item"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="contact-link-icon" aria-hidden="true">&#128025;</span>
+              <div>
+                <div class="contact-link-label">GitHub</div>
+                <div class="contact-link-value">github.com/yourusername</div>
+              </div>
+            </a>
+
+            <!-- LinkedIn -->
+            <!-- Update href with your LinkedIn profile URL -->
+            <a
+              href="https://linkedin.com/in/yourusername"
+              class="contact-link-item"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="contact-link-icon" aria-hidden="true">&#128101;</span>
+              <div>
+                <div class="contact-link-label">LinkedIn</div>
+                <div class="contact-link-value">linkedin.com/in/yourusername</div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- RIGHT — Contact form ─────────────────────
+             This form uses the mailto: action as a fallback.
+             To wire it to a real backend, replace the action
+             with a Formspree URL: https://formspree.io/f/YOUR_ID
+        ─────────────────────────────────────────────── -->
+        <div class="will-animate" data-delay="4">
+          <form
+            class="contact-form"
+            action="mailto:your@email.com"
+            method="POST"
+            enctype="text/plain"
+            id="contact-form"
+            novalidate
+          >
+
+            <div class="form-group">
+              <label class="form-label" for="name">Name</label>
+              <input
+                class="form-input"
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name"
+                required
+                autocomplete="name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input
+                class="form-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="your@email.com"
+                required
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="message">Message</label>
+              <textarea
+                class="form-textarea"
+                id="message"
+                name="message"
+                placeholder="What's on your mind?"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-feedback" id="form-feedback" role="alert"></div>
+
+            <button type="submit" class="btn btn-primary form-submit">
+              Send message
+            </button>
+
+          </form>
+        </div>
+
+      </div><!-- /contact-layout -->
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <p class="text-sm text-muted">
+        &copy; <span id="footer-year"></span> Paul Zabotto
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════════════════ -->
+  <script src="../js/core/nav.js"               defer></script>
+  <script src="../js/core/animations.js"        defer></script>
+  <script src="../js/components/transitions.js" defer></script>
+  <script src="../js/main.js"                   defer></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

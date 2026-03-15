@@ -1,0 +1,190 @@
+/* ============================================================
+   CARDS — project cards, hobby cards, shared styles
+   ============================================================ */
+
+
+/* ── TAG / BADGE ─────────────────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+
+/* ── PROJECT CARD ────────────────────────────────────────── */
+
+.project-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-spring),
+    box-shadow var(--transition-base);
+}
+
+.project-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.project-card-year {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.project-card-title {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: var(--line-height-tight);
+}
+
+.project-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+  flex: 1;
+}
+
+.project-card-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Small button variant for card footers */
+.btn-sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-xs);
+}
+
+
+/* ── HOBBY CARD ──────────────────────────────────────────── */
+
+.hobby-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-6);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-spring),
+    box-shadow var(--transition-base);
+}
+
+.hobby-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-accent);
+}
+
+/* Background image layer */
+.hobby-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform var(--transition-slow);
+  z-index: var(--z-base);
+}
+
+.hobby-card:hover .hobby-card-bg {
+  transform: scale(1.05);
+}
+
+/* Gradient overlay */
+.hobby-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13, 13, 13, 0.92) 0%,
+    rgba(13, 13, 13, 0.4)  60%,
+    rgba(13, 13, 13, 0.1)  100%
+  );
+  z-index: var(--z-raised);
+}
+
+/* Text sits above gradient */
+.hobby-card-body {
+  position: relative;
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hobby-card-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.hobby-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.hobby-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.hobby-card-arrow {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-top: var(--space-2);
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+
+.hobby-card:hover .hobby-card-arrow {
+  transform: translateX(5px);
+}

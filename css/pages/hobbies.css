@@ -1,0 +1,55 @@
+/* ============================================================
+   HOBBIES PAGE
+   ============================================================ */
+
+/* ── PAGE HEADER ─────────────────────────────────────────── */
+
+.hobbies-header {
+  padding-top: calc(var(--nav-height) + var(--space-16));
+  padding-bottom: var(--space-12);
+}
+
+.hobbies-header-label {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.hobbies-header-title {
+  font-size: clamp(var(--font-size-xl), 4vw, var(--font-size-2xl));
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.hobbies-header-desc {
+  max-width: 540px;
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+
+/* ── HOBBIES GRID ────────────────────────────────────────── */
+
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  padding-bottom: var(--space-24);
+}
+
+@media (max-width: 900px) {
+  .hobbies-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .hobbies-grid {
+    grid-template-columns: 1fr;
+  }
+}

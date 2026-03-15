@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Paul Zabotto — Projects and research work." />
+
+  <title>Developer — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════ -->
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="../index.html" class="nav-logo">Paul Zabotto</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../developer/index.html" class="nav-link is-active" aria-current="page">Developer</a></li>
+        <li><a href="../hobbies/index.html"   class="nav-link">Hobbies</a></li>
+        <li><a href="../contact/index.html"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════ -->
+  <main id="main-content">
+    <div class="container">
+
+      <!-- ── PAGE HEADER ──────────────────────────── -->
+      <header class="dev-header">
+        <p class="dev-header-label will-animate">Developer</p>
+        <h1 class="dev-header-title will-animate" data-delay="1">Projects &amp; Research</h1>
+        <p class="dev-header-desc will-animate" data-delay="2">
+          A collection of projects, experiments, and research papers.
+          Each one represents a problem I found worth solving.
+        </p>
+      </header>
+
+      <!-- ── FILTER BAR ────────────────────────────
+           HOW TO ADD A FILTER:
+           1. Add a button here with data-filter="your-tag"
+           2. Add data-tags="...,your-tag" to matching project cards
+      ─────────────────────────────────────────────── -->
+      <div class="filter-bar will-animate" data-delay="3" role="group" aria-label="Filter projects by topic">
+        <span class="filter-label">Filter</span>
+
+        <button class="filter-btn is-active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="machine-learning">Machine Learning</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="data">Data</button>
+        <button class="filter-btn" data-filter="research">Research</button>
+      </div>
+
+      <!-- ── META ──────────────────────────────────── -->
+      <div class="projects-meta">
+        <span class="projects-count" aria-live="polite">0 projects</span>
+      </div>
+
+      <!-- ── PROJECTS GRID ─────────────────────────
+           HOW TO ADD A PROJECT:
+           1. Copy /templates/_project-template.html → /developer/projects/your-project.html
+           2. Copy one <article> block below and fill in the details
+           3. Set data-tags to match your filter buttons
+      ─────────────────────────────────────────────── -->
+      <div class="projects-grid" role="list">
+
+        <!-- ── 1. LE PETIT SPORT CHALET ───────────── -->
+        <article
+          class="project-card will-animate"
+          data-delay="1"
+          data-tags="web"
+          role="listitem"
+        >
+          <div class="project-card-header">
+            <div class="tags">
+              <span class="tag">Web</span>
+              <span class="tag">Acquisition</span>
+            </div>
+            <span class="project-card-year">2024</span>
+          </div>
+
+          <h2 class="project-card-title">Le Petit Sport Chalet</h2>
+
+          <p class="project-card-desc">
+            Acquisition and development of a hotel website.
+            Full online presence for a mountain chalet — booking, services, and brand identity.
+          </p>
+
+          <div class="project-card-footer">
+            <a href="projects/le-petit-sport-chalet.html" class="btn btn-ghost btn-sm">
+              View project
+            </a>
+            <a href="https://lepetitsportchalet.com/" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer">
+              Live site &#8599;
+            </a>
+          </div>
+        </article>
+
+        <!-- ── 2. TOTALENERGIES STUDY ─────────────── -->
+        <article
+          class="project-card will-animate"
+          data-delay="2"
+          data-tags="research, data"
+          role="listitem"
+        >
+          <div class="project-card-header">
+            <div class="tags">
+              <span class="tag">Research</span>
+              <span class="tag">Data</span>
+            </div>
+            <span class="project-card-year">2024</span>
+          </div>
+
+          <h2 class="project-card-title">TotalEnergies Study</h2>
+
+          <p class="project-card-desc">
+            <!-- TODO: add a 1-2 sentence description of the study -->
+            Industry research project conducted with TotalEnergies.
+          </p>
+
+          <div class="project-card-footer">
+            <a href="projects/totalenergies-study.html" class="btn btn-ghost btn-sm">
+              View project
+            </a>
+            <!-- Uncomment when PDF is ready:
+            <a href="../assets/pdfs/totalenergies-study.pdf" class="btn btn-ghost btn-sm" download>
+              Download PDF
+            </a>
+            -->
+          </div>
+        </article>
+
+        <!-- ── 3. VIRTUAL GREENHOUSE ──────────────── -->
+        <article
+          class="project-card will-animate"
+          data-delay="3"
+          data-tags="machine-learning, research"
+          role="listitem"
+        >
+          <div class="project-card-header">
+            <div class="tags">
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Research</span>
+            </div>
+            <span class="project-card-year">2024</span>
+          </div>
+
+          <h2 class="project-card-title">Virtual Greenhouse</h2>
+
+          <p class="project-card-desc">
+            <!-- TODO: add a 1-2 sentence description -->
+            Simulation and modelling project for a virtual greenhouse environment.
+          </p>
+
+          <div class="project-card-footer">
+            <a href="projects/virtual-greenhouse.html" class="btn btn-ghost btn-sm">
+              View project
+            </a>
+          </div>
+        </article>
+
+        <!-- ── EMPTY STATE (shown by JS when filter yields 0) ── -->
+        <div class="projects-empty" aria-live="polite">
+          <div class="projects-empty-icon">&#128269;</div>
+          <p class="projects-empty-text">No projects match this filter.</p>
+        </div>
+
+      </div><!-- /projects-grid -->
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <p class="text-sm text-muted">
+        &copy; <span id="footer-year"></span> Paul Zabotto
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════════════════ -->
+  <script src="../js/core/nav.js"               defer></script>
+  <script src="../js/core/animations.js"        defer></script>
+  <script src="../js/components/transitions.js" defer></script>
+  <script src="../js/pages/developer.js"        defer></script>
+  <script src="../js/main.js"                   defer></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

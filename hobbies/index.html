@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Paul Zabotto — Travel, fishing, and sport." />
+
+  <title>Hobbies — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════ -->
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="../index.html" class="nav-logo">Paul Zabotto</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../developer/index.html" class="nav-link">Developer</a></li>
+        <li><a href="../hobbies/index.html"   class="nav-link is-active" aria-current="page">Hobbies</a></li>
+        <li><a href="../contact/index.html"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════ -->
+  <main id="main-content">
+    <div class="container">
+
+      <!-- ── PAGE HEADER ──────────────────────────── -->
+      <header class="hobbies-header">
+        <p class="hobbies-header-label will-animate">Hobbies</p>
+        <h1 class="hobbies-header-title will-animate" data-delay="1">Life Beyond the Screen</h1>
+        <p class="hobbies-header-desc will-animate" data-delay="2">
+          What I do when I'm not writing code —
+          exploring the world, waiting for a bite, or pushing my limits.
+        </p>
+      </header>
+
+      <!-- ── HOBBY CARDS GRID ──────────────────────
+           HOW TO ADD A NEW HOBBY:
+           1. Create a new folder under /hobbies/your-hobby/
+           2. Add index.html inside it
+           3. Copy one <a> block below and update href, icon, title, desc
+           4. Add a background image path to style="--bg: url(...)"
+      ─────────────────────────────────────────────── -->
+      <div class="hobbies-grid">
+
+        <!-- ── TRAVEL / VOYAGE ─────────────────── -->
+        <a
+          href="../hobbies/voyage/index.html"
+          class="hobby-card will-animate"
+          data-delay="1"
+          aria-label="Travel — explore my world map"
+        >
+          <!--
+            Replace with your own image:
+            <div class="hobby-card-bg" style="background-image: url('../assets/images/hobbies/travel.jpg')"></div>
+          -->
+          <div class="hobby-card-bg"></div>
+
+          <div class="hobby-card-body">
+            <span class="hobby-card-icon" aria-hidden="true">&#9992;&#65039;</span>
+            <h2 class="hobby-card-title">Travel</h2>
+            <p class="hobby-card-desc">
+              Countries visited, routes taken, memories made.
+              Explore the interactive map.
+            </p>
+            <span class="hobby-card-arrow" aria-hidden="true">Explore &rarr;</span>
+          </div>
+        </a>
+
+        <!-- ── FISHING / PÊCHE ─────────────────── -->
+        <a
+          href="../hobbies/peche/index.html"
+          class="hobby-card will-animate"
+          data-delay="2"
+          aria-label="Fishing — pêche"
+        >
+          <div class="hobby-card-bg"></div>
+
+          <div class="hobby-card-body">
+            <span class="hobby-card-icon" aria-hidden="true">&#127907;</span>
+            <h2 class="hobby-card-title">P&ecirc;che</h2>
+            <p class="hobby-card-desc">
+              Patience, technique, and the quiet of early mornings on the water.
+            </p>
+            <span class="hobby-card-arrow" aria-hidden="true">Discover &rarr;</span>
+          </div>
+        </a>
+
+        <!-- ── SPORT ───────────────────────────── -->
+        <a
+          href="../hobbies/sport/index.html"
+          class="hobby-card will-animate"
+          data-delay="3"
+          aria-label="Sport"
+        >
+          <div class="hobby-card-bg"></div>
+
+          <div class="hobby-card-body">
+            <span class="hobby-card-icon" aria-hidden="true">&#127947;</span>
+            <h2 class="hobby-card-title">Sport</h2>
+            <p class="hobby-card-desc">
+              Training, competing, and staying sharp —
+              in and out of the gym.
+            </p>
+            <span class="hobby-card-arrow" aria-hidden="true">Discover &rarr;</span>
+          </div>
+        </a>
+
+      </div><!-- /hobbies-grid -->
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <p class="text-sm text-muted">
+        &copy; <span id="footer-year"></span> Paul Zabotto
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════════════════ -->
+  <script src="../js/core/nav.js"               defer></script>
+  <script src="../js/core/animations.js"        defer></script>
+  <script src="../js/components/transitions.js" defer></script>
+  <script src="../js/main.js"                   defer></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

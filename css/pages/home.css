@@ -1,0 +1,109 @@
+/* ============================================================
+   HOME PAGE
+   ============================================================ */
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--nav-height);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+
+.hero-title {
+  font-size: clamp(var(--font-size-2xl), 6vw, var(--font-size-3xl));
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  line-height: var(--line-height-tight);
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--color-accent);
+}
+
+.hero-subtitle {
+  max-width: 540px;
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+  margin-bottom: var(--space-12);
+}
+
+.hero-cta {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* Section nav cards */
+.section-nav {
+  padding: var(--space-24) 0;
+}
+
+.section-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.section-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-spring),
+    box-shadow var(--transition-base);
+  cursor: pointer;
+}
+
+.section-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.section-card-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.section-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.section-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+.section-card-arrow {
+  margin-top: auto;
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  font-weight: 600;
+  transition: transform var(--transition-fast);
+}
+
+.section-card:hover .section-card-arrow {
+  transform: translateX(4px);
+}

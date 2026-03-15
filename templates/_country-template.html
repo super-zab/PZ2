@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+  ┌──────────────────────────────────────────────────────────────┐
+  │  COUNTRY PAGE TEMPLATE                                        │
+  │  HOW TO USE:                                                  │
+  │  1. Copy this file → /hobbies/voyage/countries/xx.html       │
+  │     (xx = ISO 3166-1 alpha-2 code, e.g. jp.html, br.html)    │
+  │  2. Add the country code to VISITED_COUNTRIES in             │
+  │     /js/pages/travel-map.js                                   │
+  │  3. Find every TODO comment and fill in the real content      │
+  └──────────────────────────────────────────────────────────────┘
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- TODO: update description and title -->
+  <meta name="description" content="Paul Zabotto in TODO Country — trip notes and photos." />
+  <title>TODO Country — Travel — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Path: /hobbies/voyage/countries/ → 4 levels up to root -->
+  <link rel="stylesheet" href="../../../css/main.css" />
+</head>
+
+<body>
+
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="../../../index.html" class="nav-logo">Paul Zabotto</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="../../../developer/index.html" class="nav-link">Developer</a></li>
+        <li><a href="../../../hobbies/index.html"   class="nav-link is-active" aria-current="page">Hobbies</a></li>
+        <li><a href="../../../contact/index.html"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <div class="container">
+
+      <!-- ── BACK LINK ──────────────────────────── -->
+      <div style="padding-top: calc(var(--nav-height) + var(--space-8)); margin-bottom: var(--space-8);">
+        <a href="../../../hobbies/voyage/index.html" class="btn btn-ghost btn-sm">
+          &larr; Back to map
+        </a>
+      </div>
+
+      <!-- ── COUNTRY HEADER ───────────────────────── -->
+      <header style="margin-bottom: var(--space-12);">
+
+        <!-- TODO: replace with flag emoji for the country -->
+        <div class="will-animate" style="font-size: 3.5rem; line-height: 1; margin-bottom: var(--space-4);">
+          &#127988;
+        </div>
+
+        <!-- TODO: update country name -->
+        <h1 class="will-animate" data-delay="1" style="
+          font-size: clamp(var(--font-size-xl), 4vw, var(--font-size-2xl));
+          font-weight: 700;
+          margin-bottom: var(--space-3);
+        ">
+          TODO Country Name
+        </h1>
+
+        <!-- TODO: update visit date / duration -->
+        <p class="will-animate text-muted text-sm text-mono" data-delay="2">
+          TODO Month Year &nbsp;&mdash;&nbsp; TODO duration (e.g. "2 weeks")
+        </p>
+
+      </header>
+
+      <!-- ── COVER PHOTO (optional) ───────────────── -->
+      <!--
+      <figure class="will-animate" data-delay="3" style="
+        margin-bottom: var(--space-12);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        max-height: 480px;
+      ">
+        <img
+          src="../../../assets/images/hobbies/TODO-country-cover.jpg"
+          alt="TODO Country — cover photo"
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
+      </figure>
+      -->
+
+      <!-- ── TRIP CONTENT ─────────────────────────── -->
+      <div class="will-animate" data-delay="3" style="
+        max-width: 720px;
+        padding-bottom: var(--space-24);
+        color: var(--color-text-muted);
+        line-height: var(--line-height-normal);
+      ">
+
+        <!-- TODO: write trip notes -->
+        <section style="margin-bottom: var(--space-8);">
+          <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+            About the trip
+          </h2>
+          <p>TODO — Where did you go? What was the purpose? Who were you with?</p>
+        </section>
+
+        <section style="margin-bottom: var(--space-8);">
+          <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+            Highlights
+          </h2>
+          <ul style="list-style: disc; padding-left: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2);">
+            <li>TODO highlight 1</li>
+            <li>TODO highlight 2</li>
+            <li>TODO highlight 3</li>
+          </ul>
+        </section>
+
+        <!-- TODO: add a photo gallery section when you have images
+        <section>
+          <h2 style="...">Photos</h2>
+          Add gallery here
+        </section>
+        -->
+
+      </div>
+
+    </div><!-- /container -->
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="text-sm text-muted">
+        &copy; <span id="footer-year"></span> Paul Zabotto
+      </p>
+    </div>
+  </footer>
+
+  <script src="../../../js/core/nav.js"               defer></script>
+  <script src="../../../js/core/animations.js"        defer></script>
+  <script src="../../../js/components/transitions.js" defer></script>
+  <script src="../../../js/main.js"                   defer></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

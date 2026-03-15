@@ -1,0 +1,23 @@
+/* ============================================================
+   TYPOGRAPHY — global type scale & utilities
+   ============================================================ */
+
+.text-xs    { font-size: var(--font-size-xs); }
+.text-sm    { font-size: var(--font-size-sm); }
+.text-base  { font-size: var(--font-size-base); }
+.text-md    { font-size: var(--font-size-md); }
+.text-lg    { font-size: var(--font-size-lg); }
+.text-xl    { font-size: var(--font-size-xl); }
+.text-2xl   { font-size: var(--font-size-2xl); }
+.text-3xl   { font-size: var(--font-size-3xl); }
+
+.text-muted   { color: var(--color-text-muted); }
+.text-accent  { color: var(--color-accent); }
+.text-mono    { font-family: var(--font-mono); }
+
+.font-normal  { font-weight: 400; }
+.font-medium  { font-weight: 500; }
+.font-bold    { font-weight: 700; }
+
+.uppercase    { text-transform: uppercase; }
+.letter-wide  { letter-spacing: 0.12em; }

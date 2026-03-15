@@ -1,0 +1,40 @@
+/* ============================================================
+   SCROLL-TRIGGERED ANIMATIONS
+   Elements start hidden; JS adds .is-visible via IntersectionObserver
+   ============================================================ */
+
+/* Base state — element is invisible and offset */
+.will-animate {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity var(--transition-slow),
+    transform var(--transition-slow);
+}
+
+/* Visible state — observer fires this */
+.will-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for grid children */
+.will-animate[data-delay="1"] { transition-delay: 100ms; }
+.will-animate[data-delay="2"] { transition-delay: 200ms; }
+.will-animate[data-delay="3"] { transition-delay: 300ms; }
+.will-animate[data-delay="4"] { transition-delay: 400ms; }
+.will-animate[data-delay="5"] { transition-delay: 500ms; }
+.will-animate[data-delay="6"] { transition-delay: 600ms; }
+
+/* Slide from left variant */
+.will-animate.from-left {
+  transform: translateX(-32px);
+}
+.will-animate.from-left.is-visible {
+  transform: translateX(0);
+}
+
+/* Fade only — no translate */
+.will-animate.fade-only {
+  transform: none;
+}
