@@ -1,0 +1,5 @@
+# Ignore local env files and credentials
+env.local
+.env
+.env.*
+hobbies/voyage/service_account.json

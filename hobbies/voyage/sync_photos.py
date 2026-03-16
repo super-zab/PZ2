@@ -160,10 +160,37 @@ def get_coordinates(iso_code):
 
 def get_drive_service():
     """Initialise le service Google Drive"""
-    creds = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE,
-        scopes=['https://www.googleapis.com/auth/drive.readonly']
-    )
+    scopes = ['https://www.googleapis.com/auth/drive.readonly']
+
+    # Preferred: load credentials from environment variables (so we don't keep secrets in git)
+    project_id = os.environ.get("GOOGLE_SERVICE_ACCOUNT_PROJECT_ID")
+    client_email = os.environ.get("GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL")
+    private_key = os.environ.get("GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY")
+
+    def _clean(s: str | None) -> str | None:
+        if s is None:
+            return None
+        s = s.strip()
+        if len(s) >= 2 and ((s[0] == s[-1] == '"') or (s[0] == s[-1] == "'")):
+            s = s[1:-1]
+        return s
+
+    private_key = _clean(private_key)
+    if private_key and "\\n" in private_key:
+        private_key = private_key.replace("\\n", "\n")
+
+    if project_id and client_email and private_key:
+        info = {
+            "type": "service_account",
+            "project_id": project_id,
+            "private_key": private_key,
+            "client_email": client_email,
+            "token_uri": "https://oauth2.googleapis.com/token",
+        }
+        creds = service_account.Credentials.from_service_account_info(info, scopes=scopes)
+    else:
+        # Backward-compatible fallback for local usage
+        creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=scopes)
     return build('drive', 'v3', credentials=creds)
 
 def download_file(service, file_id, file_name, destination_path):
