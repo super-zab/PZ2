@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Le ciel des rêves de Paul Zabotto — une constellation de projets, d'ambitions et d'ailleurs." />
+  <meta name="author" content="Paul Zabotto" />
+  <title>Ciel des Rêves · Paul Zabotto</title>
+
+  <!-- Fonts: portfolio stack + poetic serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@300;400&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Portfolio CSS (provides nav, reset, tokens) -->
+  <link rel="stylesheet" href="../css/main.css" />
+
+  <style>
+    /* ── Page-level overrides ─────────────────────────── */
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #02050d;
+    }
+
+    /* Canvas fills the entire viewport behind everything */
+    #sky {
+      display: block;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+    }
+
+    /* Gradient mask so the nav text stays readable */
+    .sky-vignette-top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 5, 13, 0.72) 0%,
+        rgba(2, 5, 13, 0.20) 60%,
+        rgba(2, 5, 13, 0)    100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Portfolio nav — keep transparent (no scroll on this page) */
+    .site-nav {
+      background: transparent !important;
+      border-bottom: none !important;
+      z-index: 10;
+    }
+    .nav-logo,
+    .nav-link {
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+    }
+    .nav-link.is-active {
+      color: rgba(190, 210, 255, 0.85);
+    }
+    .nav-link.is-active::after {
+      background-color: rgba(148, 178, 255, 0.7);
+    }
+
+    /* ── Page subtitle ────────────────────────────────── */
+    #sky-title {
+      position: fixed;
+      top: calc(var(--nav-height, 70px) + 1.2rem);
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      animation: fadeInTitle 2s ease 0.6s forwards;
+    }
+    @keyframes fadeInTitle {
+      from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    #sky-title h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(190, 205, 255, 0.32);
+      letter-spacing: 0.2em;
+    }
+
+    /* ── Stats (bottom-centre) ────────────────────────── */
+    #stats {
+      position: fixed;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .stat-item { text-align: center; }
+    .stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: rgba(200, 218, 255, 0.5);
+      line-height: 1;
+    }
+    .stat-l {
+      font-family: 'Inter', sans-serif;
+      font-size: 6.5px;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(130, 148, 195, 0.32);
+      margin-top: 5px;
+    }
+    .stat-sep {
+      width: 0.5px; height: 24px;
+      background: rgba(150, 168, 220, 0.12);
+    }
+
+    /* ── Legend (bottom-right) ────────────────────────── */
+    #legend {
+      position: fixed;
+      bottom: 2rem; right: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'Inter', sans-serif;
+      font-size: 6.5px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(130, 148, 195, 0.35);
+    }
+    .legend-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Interaction hint (bottom-left) ───────────────── */
+    #hint {
+      position: fixed;
+      bottom: 2rem; left: 2.2rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 6.5px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(130, 148, 195, 0.25);
+      pointer-events: none;
+      z-index: 5;
+      transition: opacity 1.8s ease;
+    }
+    #hint.faded { opacity: 0; }
+
+    /* ── Loading state ────────────────────────────────── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(140, 160, 220, 0.3);
+      transition: opacity 0.9s ease;
+      pointer-events: none;
+    }
+    #loading.hide { opacity: 0; }
+
+    /* ── Modal overlay ────────────────────────────────── */
+    #modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(1, 3, 10, 0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 100;
+    }
+    #modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      max-width: 440px;
+      width: 90%;
+      position: relative;
+      transform: translateY(22px) scale(0.97);
+      transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+      padding: 2.8rem 3.2rem 2.4rem;
+      border-radius: 20px;
+      border: 0.5px solid rgba(160, 185, 255, 0.12);
+      background: linear-gradient(
+        148deg,
+        rgba(8,  16, 42, 0.97) 0%,
+        rgba(3,   7, 20, 0.99) 100%
+      );
+      box-shadow:
+        0 0 0 0.5px rgba(160, 185, 255, 0.07),
+        0 40px 80px rgba(0, 0, 0, 0.75),
+        inset 0 1px 0 rgba(160, 185, 255, 0.08);
+    }
+
+    /* Aurora shimmer inside modal */
+    .modal::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background:
+        radial-gradient(ellipse at 25% 0%,   rgba(80,  120, 255, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 100%,  rgba(130,  60, 255, 0.05) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    #modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-const-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(150, 175, 255, 0.42);
+      margin-bottom: 0.75rem;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: #dde8ff;
+      line-height: 1.12;
+      margin-bottom: 1.2rem;
+    }
+    .modal-rule {
+      width: 32px; height: 0.5px;
+      background: linear-gradient(90deg, transparent, rgba(155, 180, 255, 0.42), transparent);
+      margin-bottom: 1.2rem;
+    }
+    .modal-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(185, 200, 255, 0.58);
+      margin-bottom: 1.8rem;
+    }
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-status-wrap { display: flex; align-items: center; gap: 8px; }
+    .status-pip { width: 5px; height: 5px; border-radius: 50%; }
+    .status-lbl {
+      font-family: 'Inter', sans-serif;
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(160, 178, 235, 0.5);
+    }
+    .modal-footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .modal-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 7px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(130, 148, 195, 0.32);
+    }
+    .modal-esc {
+      font-family: 'Inter', sans-serif;
+      font-size: 6.5px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(130, 148, 195, 0.18);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1.2rem; right: 1.4rem;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(150, 165, 215, 0.28);
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .modal-close:hover {
+      color: rgba(200, 215, 255, 0.75);
+      background: rgba(150, 165, 215, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Gradient mask for nav readability -->
+  <div class="sky-vignette-top" aria-hidden="true"></div>
+
+  <!-- ── Portfolio navigation ───────────────────────── -->
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="/" class="nav-logo" aria-label="Paul Zabotto — home">
+        Paul Zabotto
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="/developer/" class="nav-link">Developer</a></li>
+        <li><a href="/hobbies/"   class="nav-link">Hobbies</a></li>
+        <li><a href="/reves/"     class="nav-link">Rêves</a></li>
+        <li><a href="/contact/"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ── Sky canvas ─────────────────────────────────── -->
+  <canvas id="sky" aria-hidden="true"></canvas>
+
+  <!-- ── Page subtitle ─────────────────────────────── -->
+  <div id="sky-title" aria-hidden="true">
+    <h1>mon ciel des rêves</h1>
+  </div>
+
+  <!-- ── Loading indicator ─────────────────────────── -->
+  <div id="loading" role="status" aria-live="polite">
+    Chargement&hellip;
+  </div>
+
+  <!-- ── Stats (bottom-centre) ─────────────────────── -->
+  <div id="stats" aria-label="Statistiques">
+    <div class="stat-item">
+      <div class="stat-n" id="s-total">—</div>
+      <div class="stat-l">Rêves</div>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-n" id="s-ongoing">—</div>
+      <div class="stat-l">En cours</div>
+    </div>
+    <div class="stat-sep" aria-hidden="true"></div>
+    <div class="stat-item">
+      <div class="stat-n" id="s-done">—</div>
+      <div class="stat-l">Accomplis</div>
+    </div>
+  </div>
+
+  <!-- ── Legend (bottom-right) ─────────────────────── -->
+  <div id="legend" aria-label="Légende" aria-hidden="true">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#9eb8ff;box-shadow:0 0 5px rgba(120,155,255,0.5)"></div>
+      Rêve
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#ffd060;box-shadow:0 0 6px rgba(255,200,50,0.6)"></div>
+      En cours
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#ffffff;box-shadow:0 0 7px rgba(255,255,255,0.7)"></div>
+      Accompli
+    </div>
+  </div>
+
+  <!-- ── Hint (bottom-left) ────────────────────────── -->
+  <div id="hint" aria-hidden="true">Cliquer sur une étoile</div>
+
+  <!-- ── Dream modal ───────────────────────────────── -->
+  <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="m-title" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
+      <div class="modal-const-tag" id="m-const"></div>
+      <div class="modal-title"     id="m-title"></div>
+      <div class="modal-rule"      aria-hidden="true"></div>
+      <div class="modal-desc"      id="m-desc"></div>
+      <div class="modal-footer">
+        <div class="modal-status-wrap">
+          <div class="status-pip" id="m-dot"></div>
+          <div class="status-lbl" id="m-status"></div>
+        </div>
+        <div class="modal-footer-right">
+          <div class="modal-date" id="m-date"></div>
+          <div class="modal-esc">esc pour fermer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Portfolio scripts ──────────────────────────── -->
+  <script src="../js/core/nav.js"               defer></script>
+  <script src="../js/components/transitions.js" defer></script>
+
+  <!-- ── Sky engine ────────────────────────────────── -->
+  <script>
+  'use strict';
+
+  // ════════════════════════════════════════════════
+  //  STATE
+  // ════════════════════════════════════════════════
+
+  let CONSTELLATIONS = {};
+  let DREAMS = [];
+
+  const canvas = document.getElementById('sky');
+  const ctx    = canvas.getContext('2d');
+  let W, H, dpr;
+
+  const bgStars = [];
+  const shooters = [];
+  let t = 0;
+  let mx = -9999, my = -9999;
+  let px = 0, py = 0;
+  let hoveredDream = null;
+  let hintFaded = false;
+  let modalOpen = false;
+
+  // ════════════════════════════════════════════════
+  //  CANVAS SETUP
+  // ════════════════════════════════════════════════
+
+  function initBgStars() {
+    bgStars.length = 0;
+    const count = Math.floor((W * H) / 2500);
+    for (let i = 0; i < count; i++) {
+      bgStars.push({
+        x:     Math.random(),
+        y:     Math.random(),
+        r:     Math.random() * 0.9 + 0.15,
+        alpha: Math.random() * 0.5 + 0.1,
+        speed: 0.0005 + Math.random() * 0.0015,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    W   = window.innerWidth;
+    H   = window.innerHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+    initBgStars();
+  }
+
+  window.addEventListener('resize', resize);
+
+  // ════════════════════════════════════════════════
+  //  SHOOTING STARS
+  // ════════════════════════════════════════════════
+
+  function spawnShooter() {
+    shooters.push({
+      x:       Math.random() * 0.6 + 0.05,
+      y:       Math.random() * 0.25,
+      vx:      0.0045 + Math.random() * 0.003,
+      vy:      0.002  + Math.random() * 0.0015,
+      len:     100 + Math.random() * 100,
+      life:    0,
+      maxLife: 55 + Math.random() * 35,
+    });
+  }
+
+  function scheduleShooter() {
+    setTimeout(() => { spawnShooter(); scheduleShooter(); }, 4000 + Math.random() * 9000);
+  }
+
+  // ════════════════════════════════════════════════
+  //  INTERACTION
+  // ════════════════════════════════════════════════
+
+  function dreamAt(cx, cy) {
+    for (const d of DREAMS) {
+      const hitR = d.size * (d.status === 'done' ? 1.5 : 1.0) + 14;
+      if (Math.hypot(cx - d.x * W, cy - d.y * H) < hitR) return d;
+    }
+    return null;
+  }
+
+  canvas.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    px = (e.clientX / W - 0.5) * 14;
+    py = (e.clientY / H - 0.5) * 10;
+    hoveredDream = dreamAt(mx, my);
+    canvas.style.cursor = hoveredDream ? 'pointer' : 'default';
+  });
+
+  canvas.addEventListener('mouseleave', () => { hoveredDream = null; });
+
+  canvas.addEventListener('click', e => {
+    if (hoveredDream) openModal(hoveredDream);
+  });
+
+  // Touch support for mobile
+  canvas.addEventListener('touchstart', e => {
+    const touch = e.touches[0];
+    px = (touch.clientX / W - 0.5) * 14;
+    py = (touch.clientY / H - 0.5) * 10;
+  }, { passive: true });
+
+  canvas.addEventListener('touchend', e => {
+    const touch = e.changedTouches[0];
+    const dream = dreamAt(touch.clientX, touch.clientY);
+    if (dream) openModal(dream);
+  }, { passive: true });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modalOpen) closeModal();
+  });
+
+  // Adjust hint for touch devices
+  if ('ontouchstart' in window) {
+    document.getElementById('hint').textContent = 'Toucher une étoile';
+  }
+
+  // ════════════════════════════════════════════════
+  //  DRAW HELPERS
+  // ════════════════════════════════════════════════
+
+  function starColor(status) {
+    if (status === 'done')    return [255, 255, 255];
+    if (status === 'ongoing') return [255, 215, 75];
+    return [148, 178, 255];
+  }
+
+  function drawNebulaEllipse(cx, cy, rx, ry, r, g, b, alpha) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(rx, ry);
+    const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+    grd.addColorStop(0,    `rgba(${r},${g},${b},${alpha})`);
+    grd.addColorStop(0.55, `rgba(${r},${g},${b},${alpha * 0.35})`);
+    grd.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(0, 0, 1, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawStarGlyph(x, y, r, [rc, gc, bc], intensity, isHovered) {
+    const tw = 0.75 + 0.25 * intensity;
+
+    // Atmosphere glow
+    const atmR = r * (isHovered ? 7.5 : 4.5);
+    const atm = ctx.createRadialGradient(x, y, 0, x, y, atmR);
+    atm.addColorStop(0,   `rgba(${rc},${gc},${bc},${0.15 * tw})`);
+    atm.addColorStop(0.4, `rgba(${rc},${gc},${bc},${0.05 * tw})`);
+    atm.addColorStop(1,   `rgba(${rc},${gc},${bc},0)`);
+    ctx.fillStyle = atm;
+    ctx.beginPath(); ctx.arc(x, y, atmR, 0, Math.PI * 2); ctx.fill();
+
+    // Core glow
+    const coreR = r * 2.2;
+    const core = ctx.createRadialGradient(x, y, 0, x, y, coreR);
+    core.addColorStop(0,    `rgba(255,255,255,${0.9 * tw})`);
+    core.addColorStop(0.25, `rgba(${rc},${gc},${bc},${0.7 * tw})`);
+    core.addColorStop(1,    `rgba(${rc},${gc},${bc},0)`);
+    ctx.fillStyle = core;
+    ctx.beginPath(); ctx.arc(x, y, coreR, 0, Math.PI * 2); ctx.fill();
+
+    // Hard centre
+    ctx.fillStyle = `rgba(255,255,255,${0.97 * tw})`;
+    ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0, Math.PI * 2); ctx.fill();
+
+    // 4 main diffraction spikes
+    const spikeLen   = r * (isHovered ? 5.8 : 4.2);
+    const spikeAlpha = isHovered ? 0.6 : 0.32;
+    ctx.lineCap = 'round';
+    for (const angle of [0, Math.PI / 2, Math.PI, Math.PI * 3 / 2]) {
+      const ex = x + Math.cos(angle) * spikeLen;
+      const ey = y + Math.sin(angle) * spikeLen;
+      const sp = ctx.createLinearGradient(x, y, ex, ey);
+      sp.addColorStop(0,   `rgba(${rc},${gc},${bc},${spikeAlpha * tw})`);
+      sp.addColorStop(0.6, `rgba(${rc},${gc},${bc},${spikeAlpha * 0.3 * tw})`);
+      sp.addColorStop(1,   `rgba(${rc},${gc},${bc},0)`);
+      ctx.strokeStyle = sp;
+      ctx.lineWidth = r * 0.35;
+      ctx.beginPath();
+      ctx.moveTo(x - Math.cos(angle) * r * 0.3, y - Math.sin(angle) * r * 0.3);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+    }
+
+    // 4 diagonal secondary spikes (larger stars only)
+    if (r >= 8) {
+      const diagLen = r * (isHovered ? 3.5 : 2.5);
+      for (const angle of [Math.PI / 4, Math.PI * 3 / 4, Math.PI * 5 / 4, Math.PI * 7 / 4]) {
+        const ex = x + Math.cos(angle) * diagLen;
+        const ey = y + Math.sin(angle) * diagLen;
+        const sp = ctx.createLinearGradient(x, y, ex, ey);
+        sp.addColorStop(0, `rgba(${rc},${gc},${bc},${spikeAlpha * 0.5 * tw})`);
+        sp.addColorStop(1, `rgba(${rc},${gc},${bc},0)`);
+        ctx.strokeStyle = sp;
+        ctx.lineWidth = r * 0.18;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(ex, ey); ctx.stroke();
+      }
+    }
+  }
+
+  function drawConstellationLines() {
+    for (const [cid, cdef] of Object.entries(CONSTELLATIONS)) {
+      const [cr, cg, cb] = cdef.color;
+
+      // Resolve links by dream ID (not array index)
+      const links = (cdef.links || [])
+        .map(([a, b]) => [DREAMS.find(d => d.id === a), DREAMS.find(d => d.id === b)])
+        .filter(([a, b]) => a && b);
+
+      for (const [a, b] of links) {
+        const ax = a.x * W, ay = a.y * H;
+        const bx = b.x * W, by = b.y * H;
+
+        // Solid faint glow
+        ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.07)`;
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([]);
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+
+        // Animated dashed line
+        ctx.save();
+        ctx.setLineDash([3, 11]);
+        ctx.lineDashOffset = -(t * 0.25);
+        ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.20)`;
+        ctx.lineWidth = 0.7;
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+        ctx.restore();
+      }
+
+      // Constellation label at centroid
+      const members = DREAMS.filter(d => d.constellation === cid);
+      if (members.length === 0) continue;
+      const cx = members.reduce((s, d) => s + d.x, 0) / members.length;
+      const cy = members.reduce((s, d) => s + d.y, 0) / members.length;
+      ctx.save();
+      ctx.font = '300 8px "Cinzel", serif';
+      ctx.fillStyle = `rgba(${cr},${cg},${cb},0.22)`;
+      ctx.textAlign = 'center';
+      ctx.fillText(
+        (cdef.name + '  ·  ' + cdef.label).toUpperCase(),
+        cx * W,
+        cy * H + 54
+      );
+      ctx.restore();
+    }
+  }
+
+  function drawBgStars() {
+    for (const s of bgStars) {
+      const pulse = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed * 90 + s.phase));
+      ctx.fillStyle = `rgba(215,225,255,${s.alpha * pulse})`;
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function drawShooters() {
+    for (let i = shooters.length - 1; i >= 0; i--) {
+      const s = shooters[i];
+      s.life++;
+      const prog  = s.life / s.maxLife;
+      const alpha = prog < 0.25 ? prog / 0.25 : 1 - (prog - 0.25) / 0.75;
+      s.x += s.vx; s.y += s.vy;
+
+      const ex  = s.x * W,   ey  = s.y * H;
+      const sx2 = ex - s.vx * s.len * 55;
+      const sy2 = ey - s.vy * s.len * 55;
+
+      const grd = ctx.createLinearGradient(sx2, sy2, ex, ey);
+      grd.addColorStop(0,   `rgba(210,225,255,0)`);
+      grd.addColorStop(0.7, `rgba(220,235,255,${alpha * 0.5})`);
+      grd.addColorStop(1,   `rgba(240,248,255,${alpha * 0.85})`);
+      ctx.strokeStyle = grd;
+      ctx.lineWidth = 0.9;
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(sx2, sy2); ctx.lineTo(ex, ey); ctx.stroke();
+
+      ctx.fillStyle = `rgba(240,248,255,${alpha * 0.7})`;
+      ctx.beginPath(); ctx.arc(ex, ey, 1.3, 0, Math.PI * 2); ctx.fill();
+
+      if (s.life >= s.maxLife || s.x > 1.15 || s.y > 1.1) shooters.splice(i, 1);
+    }
+  }
+
+  function drawHoverLabel(d) {
+    const x = d.x * W, y = d.y * H;
+    const [rc, gc, bc] = starColor(d.status);
+    const labelY = y - d.size * 3.5 - 18;
+
+    ctx.save();
+    ctx.font = '300 13px "Cormorant Garamond", serif';
+    ctx.textAlign = 'center';
+    const tw  = ctx.measureText(d.title).width;
+    const pad = 14;
+
+    ctx.fillStyle = 'rgba(4, 10, 28, 0.76)';
+    ctx.beginPath();
+    ctx.roundRect(x - tw / 2 - pad, labelY - 15, tw + pad * 2, 23, 7);
+    ctx.fill();
+
+    ctx.strokeStyle = `rgba(${rc},${gc},${bc},0.22)`;
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    ctx.fillStyle = `rgba(${Math.min(255, rc + 60)},${Math.min(255, gc + 60)},${Math.min(255, bc + 80)},0.9)`;
+    ctx.fillText(d.title, x, labelY);
+    ctx.restore();
+  }
+
+  // ════════════════════════════════════════════════
+  //  RENDER LOOP
+  // ════════════════════════════════════════════════
+
+  function render() {
+    t++;
+    ctx.clearRect(0, 0, W, H);
+
+    // Deep space background
+    const bg = ctx.createRadialGradient(W * 0.4, H * 0.35, 0, W * 0.5, H * 0.5, Math.max(W, H));
+    bg.addColorStop(0,   '#0a1228');
+    bg.addColorStop(0.4, '#05090f');
+    bg.addColorStop(1,   '#02040a');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Constellation nebulae (one per zone)
+    drawNebulaEllipse(W * 0.25, H * 0.32, W * 0.22, H * 0.20, 40, 28,  5, 0.20); // mercurius — amber
+    drawNebulaEllipse(W * 0.78, H * 0.28, W * 0.20, H * 0.22,  5, 35, 55, 0.18); // peregrina — blue
+    drawNebulaEllipse(W * 0.22, H * 0.74, W * 0.20, H * 0.18, 35,  8, 55, 0.17); // musea     — violet
+    drawNebulaEllipse(W * 0.72, H * 0.72, W * 0.20, H * 0.18,  5, 45, 35, 0.17); // sophia    — teal
+
+    // Faint Milky Way band
+    ctx.save();
+    const mw = ctx.createLinearGradient(0, H * 0.1, W, H * 0.9);
+    mw.addColorStop(0,   'rgba(20,25,60,0)');
+    mw.addColorStop(0.3, 'rgba(20,25,55,0.07)');
+    mw.addColorStop(0.5, 'rgba(22,28,65,0.12)');
+    mw.addColorStop(0.7, 'rgba(20,25,55,0.07)');
+    mw.addColorStop(1,   'rgba(20,25,60,0)');
+    ctx.fillStyle = mw;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    drawBgStars();
+    drawShooters();
+
+    // Dream layer (parallax-shifted)
+    ctx.save();
+    ctx.translate(px, py);
+    drawConstellationLines();
+
+    for (const d of DREAMS) {
+      const isHov = hoveredDream === d;
+      const sc    = starColor(d.status);
+      const tw    = 0.6 + 0.4 * (0.5 + 0.5 * Math.sin(t * 0.018 + d.id * 2.1));
+      drawStarGlyph(d.x * W, d.y * H, d.size, sc, tw, isHov);
+    }
+
+    if (hoveredDream) drawHoverLabel(hoveredDream);
+    ctx.restore();
+
+    requestAnimationFrame(render);
+  }
+
+  // ════════════════════════════════════════════════
+  //  MODAL
+  // ════════════════════════════════════════════════
+
+  const STATUS_COLOR = { dream: '#9eb8ff', ongoing: '#ffd060', done: '#ffffff' };
+  const STATUS_LABEL = { dream: 'Rêve',    ongoing: 'En cours', done: 'Accompli' };
+
+  function openModal(d) {
+    // Fade hint on first open
+    if (!hintFaded) {
+      hintFaded = true;
+      document.getElementById('hint').classList.add('faded');
+    }
+
+    const constDef = CONSTELLATIONS[d.constellation];
+    document.getElementById('m-const').textContent =
+      constDef ? `Constellation ${constDef.name}  ·  ${constDef.label}` : '';
+    document.getElementById('m-title').textContent  = d.title;
+    document.getElementById('m-desc').textContent   = d.desc;
+    document.getElementById('m-status').textContent = STATUS_LABEL[d.status] || '';
+    document.getElementById('m-date').textContent   = d.date || '';
+
+    const dot = document.getElementById('m-dot');
+    const col = STATUS_COLOR[d.status] || '#9eb8ff';
+    dot.style.background = col;
+    dot.style.boxShadow  = `0 0 7px ${col}`;
+
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('open');
+    overlay.removeAttribute('aria-hidden');
+    modalOpen = true;
+  }
+
+  function closeModal() {
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    modalOpen = false;
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+
+  // ════════════════════════════════════════════════
+  //  DATA LOADING  —  edit reves/dreams.json to add dreams
+  // ════════════════════════════════════════════════
+
+  fetch('dreams.json')
+    .then(r => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.json();
+    })
+    .then(data => {
+      CONSTELLATIONS = data.constellations || {};
+      DREAMS         = data.dreams         || [];
+
+      // Update stats
+      document.getElementById('s-total').textContent   = DREAMS.length;
+      document.getElementById('s-ongoing').textContent = DREAMS.filter(d => d.status === 'ongoing').length;
+      document.getElementById('s-done').textContent    = DREAMS.filter(d => d.status === 'done').length;
+
+      // Hide loading indicator
+      const loading = document.getElementById('loading');
+      loading.classList.add('hide');
+      setTimeout(() => loading.remove(), 900);
+
+      // Start the engine
+      resize();
+      scheduleShooter();
+      render();
+    })
+    .catch(err => {
+      console.error('Could not load dreams.json:', err);
+      const loading = document.getElementById('loading');
+      loading.textContent = 'Impossible de charger les rêves.';
+    });
+  </script>
+
+</body>
+</html>

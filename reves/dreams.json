@@ -1,0 +1,210 @@
+{
+  "_docs": {
+    "description": "Données du Ciel des Rêves. Éditer ce fichier pour ajouter, modifier ou archiver des rêves.",
+
+    "add_a_dream": [
+      "1. Ajouter un objet dans le tableau 'dreams' avec les champs ci-dessous.",
+      "2. Choisir une 'constellation' existante (clé dans l'objet 'constellations').",
+      "3. Optionnel : relier ce rêve à d'autres dans les 'links' de la constellation (utiliser les IDs).",
+      "4. Sauvegarder le fichier et rafraîchir la page."
+    ],
+
+    "dream_fields": {
+      "id":            "Entier unique — ne jamais réutiliser un ID supprimé",
+      "title":         "Nom court du rêve (~30 caractères max)",
+      "desc":          "Description poétique, 1 à 3 phrases",
+      "constellation": "Clé d'une constellation (ex: 'mercurius')",
+      "status":        "'dream' (bleu) | 'ongoing' (or) | 'done' (blanc brillant)",
+      "x":             "Position horizontale 0.0–1.0 (gauche → droite). Garder entre 0.05 et 0.95.",
+      "y":             "Position verticale 0.0–1.0 (haut → bas). Garder entre 0.15 et 0.90.",
+      "size":          "Rayon de l'étoile en px. 7 = petit rêve lointain, 14–16 = rêve marquant.",
+      "date":          "Texte libre affiché dans la modale — ex: 'Horizon 2025', 'Un jour', 'Accompli ✦'"
+    },
+
+    "add_a_constellation": [
+      "1. Ajouter une clé dans 'constellations' (en minuscules, sans espaces).",
+      "2. Renseigner name, label, color (tableau RGB), et links.",
+      "3. 'links' est un tableau de paires d'IDs de rêves à relier par une ligne : [[id_A, id_B], ...].",
+      "   → Les IDs font référence aux 'id' des rêves dans le tableau 'dreams', pas à leurs positions."
+    ],
+
+    "status_guide": {
+      "dream":   "Rêve non encore commencé — étoile bleue",
+      "ongoing": "En cours de réalisation — étoile dorée",
+      "done":    "Rêve accompli — étoile blanche brillante, taille +50 %"
+    },
+
+    "positioning_tips": [
+      "Les 4 constellations occupent les 4 quadrants : haut-gauche, haut-droite, bas-gauche, bas-droite.",
+      "Mercurius (entrepreneur) : x ≈ 0.10–0.40, y ≈ 0.15–0.50",
+      "Peregrina (voyageur)     : x ≈ 0.60–0.92, y ≈ 0.15–0.45",
+      "Musea (arts & création)  : x ≈ 0.10–0.40, y ≈ 0.55–0.90",
+      "Sophia (savoir)          : x ≈ 0.58–0.92, y ≈ 0.55–0.90"
+    ]
+  },
+
+  "constellations": {
+    "mercurius": {
+      "name":  "Mercurius",
+      "label": "L'Entrepreneur",
+      "color": [255, 210, 80],
+      "links": [[1, 2], [2, 3], [3, 1]]
+    },
+    "peregrina": {
+      "name":  "Peregrina",
+      "label": "Le Voyageur",
+      "color": [80, 190, 255],
+      "links": [[4, 5], [5, 6], [6, 7], [4, 6]]
+    },
+    "musea": {
+      "name":  "Musea",
+      "label": "La Muse",
+      "color": [210, 130, 255],
+      "links": [[8, 9], [9, 10], [10, 8]]
+    },
+    "sophia": {
+      "name":  "Sophia",
+      "label": "Le Savoir",
+      "color": [90, 240, 185],
+      "links": [[11, 12], [12, 13], [11, 13]]
+    }
+  },
+
+  "dreams": [
+
+    {
+      "id": 1,
+      "title": "Ouvrir Barkers Club",
+      "desc": "Un café dog-friendly à Los Angeles. Un flat white parfait, un golden retriever sous la table, et des gens qui prennent le temps d'être là.",
+      "constellation": "mercurius",
+      "status": "ongoing",
+      "x": 0.21, "y": 0.26,
+      "size": 14,
+      "date": "Horizon 2025"
+    },
+    {
+      "id": 2,
+      "title": "Lancer ma startup",
+      "desc": "Transformer une idée en quelque chose de réel. Bâtir de zéro, trouver des gens qui y croient autant que moi, regarder quelque chose grandir.",
+      "constellation": "mercurius",
+      "status": "ongoing",
+      "x": 0.34, "y": 0.17,
+      "size": 12,
+      "date": "En gestation"
+    },
+    {
+      "id": 3,
+      "title": "Maîtriser l'art du café",
+      "desc": "Comprendre la chimie derrière chaque extraction. Rôtir ses propres grains. Atteindre cet équilibre parfait entre acidité et douceur.",
+      "constellation": "mercurius",
+      "status": "dream",
+      "x": 0.16, "y": 0.42,
+      "size": 8,
+      "date": "Un jour"
+    },
+
+    {
+      "id": 4,
+      "title": "Vivre à l'étranger",
+      "desc": "S'installer dans une ville inconnue. Apprendre à exister dans une autre langue, sous une autre lumière. Devenir légèrement quelqu'un d'autre.",
+      "constellation": "peregrina",
+      "status": "dream",
+      "x": 0.70, "y": 0.20,
+      "size": 10,
+      "date": "Un jour"
+    },
+    {
+      "id": 5,
+      "title": "Voyager au Japon",
+      "desc": "Les temples à l'aube, le ramen à minuit, les cerisiers qui durent trop peu. Vivre le Japon lentement, sans itinéraire trop serré.",
+      "constellation": "peregrina",
+      "status": "dream",
+      "x": 0.82, "y": 0.33,
+      "size": 11,
+      "date": "Bientôt"
+    },
+    {
+      "id": 6,
+      "title": "Road trip côte Ouest USA",
+      "desc": "Partir vers l'ouest sans trop planifier. Des déserts orangés, des diners déserts à 2h du matin, des couchers de soleil sur l'autoroute.",
+      "constellation": "peregrina",
+      "status": "dream",
+      "x": 0.87, "y": 0.18,
+      "size": 8,
+      "date": "Un jour"
+    },
+    {
+      "id": 7,
+      "title": "Explorer la Patagonie",
+      "desc": "Marcher plusieurs jours avec un sac à dos. Le vent, les glaciers, et rien d'autre à faire que d'avancer et de regarder.",
+      "constellation": "peregrina",
+      "status": "dream",
+      "x": 0.75, "y": 0.40,
+      "size": 9,
+      "date": "Un jour"
+    },
+
+    {
+      "id": 8,
+      "title": "Écrire un livre",
+      "desc": "Quelque chose d'honnête. Peut-être sur l'entrepreneuriat, peut-être une fiction. Peu importe, pourvu que chaque phrase mérite d'exister.",
+      "constellation": "musea",
+      "status": "dream",
+      "x": 0.20, "y": 0.68,
+      "size": 10,
+      "date": "Un jour"
+    },
+    {
+      "id": 9,
+      "title": "Apprendre le piano",
+      "desc": "Jouer Satie le soir, juste pour soi. Pas de performance, pas de public — juste les touches et le silence entre elles.",
+      "constellation": "musea",
+      "status": "dream",
+      "x": 0.31, "y": 0.80,
+      "size": 8,
+      "date": "Un jour"
+    },
+    {
+      "id": 10,
+      "title": "Créer un court-métrage",
+      "desc": "Une histoire courte, filmée avec ce qu'on a. Apprendre à voir une scène, à la découper, à la faire résonner.",
+      "constellation": "musea",
+      "status": "dream",
+      "x": 0.14, "y": 0.78,
+      "size": 7,
+      "date": "Un jour"
+    },
+
+    {
+      "id": 11,
+      "title": "Obtenir mon diplôme",
+      "desc": "Finir UC Berkeley avec fierté. Tout ce travail, toutes ces nuits, chaque doute qu'il a fallu traverser — ça valait la peine.",
+      "constellation": "sophia",
+      "status": "done",
+      "x": 0.70, "y": 0.65,
+      "size": 16,
+      "date": "Accompli ✦"
+    },
+    {
+      "id": 12,
+      "title": "Parler l'espagnol couramment",
+      "desc": "Une troisième langue. Ouvrir une troisième fenêtre sur le monde. Peut-être se perdre un peu à Barcelone, sans avoir à traduire.",
+      "constellation": "sophia",
+      "status": "dream",
+      "x": 0.80, "y": 0.76,
+      "size": 8,
+      "date": "Un jour"
+    },
+    {
+      "id": 13,
+      "title": "Lire 50 livres en un an",
+      "desc": "Pas par performance. Juste l'habitude de s'asseoir avec un livre chaque soir, et de laisser quelqu'un d'autre penser à ma place pour un moment.",
+      "constellation": "sophia",
+      "status": "dream",
+      "x": 0.64, "y": 0.78,
+      "size": 7,
+      "date": "Un jour"
+    }
+
+  ]
+}

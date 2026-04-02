@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Ciel des Rêves</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #02050d;
+    font-family: 'Cinzel', serif;
+  }
+
+  canvas { display: block; width: 100vw; height: 100vh; }
+
+  /* ── HEADER ── */
+  #header {
+    position: fixed;
+    top: 2.2rem; left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+  }
+  #header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(190, 205, 255, 0.28);
+    letter-spacing: 0.15em;
+  }
+
+  /* ── STATS ── */
+  #stats {
+    position: fixed;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .stat-item { text-align: center; }
+  .stat-n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: rgba(200, 218, 255, 0.5);
+    line-height: 1;
+  }
+  .stat-l {
+    font-size: 7px;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(130, 148, 195, 0.3);
+    margin-top: 4px;
+  }
+  .stat-sep { width: 0.5px; height: 26px; background: rgba(150, 168, 220, 0.1); }
+
+  /* ── LEGEND ── */
+  #legend {
+    position: fixed;
+    bottom: 2rem; right: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 7.5px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(130, 148, 195, 0.35);
+  }
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* ── HINT ── */
+  #hint {
+    position: fixed;
+    bottom: 2rem; left: 2.2rem;
+    font-size: 7.5px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(130, 148, 195, 0.22);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── MODAL ── */
+  #modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(1, 3, 10, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+    z-index: 100;
+  }
+  #modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    max-width: 420px;
+    width: 90%;
+    position: relative;
+    transform: translateY(24px) scale(0.96);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 2.8rem 3.2rem 2.4rem;
+    border-radius: 18px;
+    border: 0.5px solid rgba(160, 185, 255, 0.1);
+    background: linear-gradient(148deg, rgba(8, 16, 42, 0.97) 0%, rgba(3, 7, 20, 0.99) 100%);
+    box-shadow:
+      0 0 0 0.5px rgba(160, 185, 255, 0.06),
+      0 40px 80px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(160, 185, 255, 0.06);
+  }
+  #modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+  .modal-const-tag {
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(150, 175, 255, 0.38);
+    margin-bottom: 0.6rem;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: #dde8ff;
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .modal-rule {
+    width: 36px; height: 0.5px;
+    background: linear-gradient(90deg, transparent, rgba(155, 180, 255, 0.4), transparent);
+    margin-bottom: 1.2rem;
+  }
+  .modal-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(185, 200, 255, 0.55);
+    margin-bottom: 1.8rem;
+  }
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-status-wrap { display: flex; align-items: center; gap: 8px; }
+  .status-pip { width: 5px; height: 5px; border-radius: 50%; }
+  .status-lbl {
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(160, 178, 235, 0.45);
+  }
+  .modal-date {
+    font-size: 8px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: rgba(130, 148, 195, 0.28);
+    text-transform: uppercase;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1.3rem; right: 1.5rem;
+    background: none; border: none;
+    color: rgba(150, 165, 215, 0.25);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s ease;
+    font-family: 'Cinzel', serif;
+  }
+  .modal-close:hover { color: rgba(200, 215, 255, 0.65); }
+
+  /* Constellation badge in modal */
+  .modal-const-icon {
+    position: absolute;
+    top: 2rem; right: 2.8rem;
+    width: 28px; height: 28px;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="sky"></canvas>
+
+<div id="header"><h1>Mon Ciel des Rêves</h1></div>
+
+<div id="stats">
+  <div class="stat-item"><div class="stat-n" id="s-total">10</div><div class="stat-l">Rêves</div></div>
+  <div class="stat-sep"></div>
+  <div class="stat-item"><div class="stat-n" id="s-ongoing">2</div><div class="stat-l">En cours</div></div>
+  <div class="stat-sep"></div>
+  <div class="stat-item"><div class="stat-n" id="s-done">1</div><div class="stat-l">Accomplis</div></div>
+</div>
+
+<div id="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#9eb8ff;box-shadow:0 0 5px rgba(120,155,255,0.5);"></div>Rêve
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#ffd060;box-shadow:0 0 6px rgba(255,200,50,0.6);"></div>En cours
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#fff;box-shadow:0 0 7px rgba(255,255,255,0.7);"></div>Accompli
+  </div>
+</div>
+
+<div id="hint">Cliquer sur une étoile</div>
+
+<div id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-const-tag" id="m-const"></div>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-rule"></div>
+    <div class="modal-desc" id="m-desc"></div>
+    <div class="modal-footer">
+      <div class="modal-status-wrap">
+        <div class="status-pip" id="m-dot"></div>
+        <div class="status-lbl" id="m-status"></div>
+      </div>
+      <div class="modal-date" id="m-date"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════════════
+
+const CONSTELLATIONS = {
+  mercurius: {
+    name: 'Mercurius',
+    label: "L'Entrepreneur",
+    color: [255, 210, 80],
+    // Shape: ascending triangle — ambition
+    links: [[0,1],[1,2],[2,0]],
+  },
+  peregrina: {
+    name: 'Peregrina',
+    label: 'Le Voyageur',
+    color: [80, 190, 255],
+    // Shape: dipper / path forward
+    links: [[0,1],[1,2],[2,3],[0,2]],
+  },
+  musea: {
+    name: 'Musea',
+    label: 'La Muse',
+    color: [210, 130, 255],
+    // Shape: lyre — two points with an arc
+    links: [[0,1],[1,2],[2,0]],
+  },
+  sophia: {
+    name: 'Sophia',
+    label: 'Le Savoir',
+    color: [90, 240, 185],
+    // Shape: ascending vertical with branch
+    links: [[0,1],[1,2],[0,2]],
+  },
+};
+
+const DREAMS = [
+  // MERCURIUS — entrepreneur zone (top-left ish)
+  {
+    id:1, title:'Ouvrir Barkers Club',
+    desc:"Un café dog-friendly à Los Angeles. Un flat white parfait, un golden retriever sous la table, et des gens qui prennent le temps d'être là.",
+    constellation:'mercurius', status:'ongoing',
+    x:0.21, y:0.26, size:14,
+    date:'Horizon 2025'
+  },
+  {
+    id:2, title:'Lancer ma startup',
+    desc:"Transformer une idée en quelque chose de réel. Bâtir de zéro, trouver des gens qui y croient autant que moi, regarder quelque chose grandir.",
+    constellation:'mercurius', status:'ongoing',
+    x:0.34, y:0.17, size:12,
+    date:'En gestation'
+  },
+  {
+    id:3, title:"Maîtriser l'art du café",
+    desc:"Comprendre la chimie derrière chaque extraction. Rôtir ses propres grains. Atteindre cet équilibre parfait entre acidité et douceur.",
+    constellation:'mercurius', status:'dream',
+    x:0.16, y:0.42, size:8,
+    date:'Un jour'
+  },
+
+  // PEREGRINA — voyage zone (top-right)
+  {
+    id:4, title:"Vivre à l'étranger",
+    desc:"S'installer dans une ville inconnue. Apprendre à exister dans une autre langue, sous une autre lumière. Devenir légèrement quelqu'un d'autre.",
+    constellation:'peregrina', status:'dream',
+    x:0.70, y:0.20, size:10,
+    date:'Un jour'
+  },
+  {
+    id:5, title:'Voyager au Japon',
+    desc:"Les temples à l'aube, le ramen à minuit, les cerisiers qui durent trop peu. Vivre le Japon lentement, sans itinéraire trop serré.",
+    constellation:'peregrina', status:'dream',
+    x:0.82, y:0.33, size:11,
+    date:'Bientôt'
+  },
+  {
+    id:6, title:'Road trip côte Ouest USA',
+    desc:"Partir vers l'ouest sans trop planifier. Des déserts orangés, des diners déserts à 2h du matin, des couchers de soleil sur l'autoroute.",
+    constellation:'peregrina', status:'dream',
+    x:0.87, y:0.18, size:8,
+    date:'Un jour'
+  },
+  {
+    id:7, title:'Explorer la Patagonie',
+    desc:"Marcher plusieurs jours avec un sac à dos. Le vent, les glaciers, et rien d'autre à faire que d'avancer et de regarder.",
+    constellation:'peregrina', status:'dream',
+    x:0.75, y:0.40, size:9,
+    date:'Un jour'
+  },
+
+  // MUSEA — arts zone (bottom-left)
+  {
+    id:8, title:'Écrire un livre',
+    desc:"Quelque chose d'honnête. Peut-être sur l'entrepreneuriat, peut-être une fiction. Peu importe, pourvu que chaque phrase mérite d'exister.",
+    constellation:'musea', status:'dream',
+    x:0.20, y:0.68, size:10,
+    date:'Un jour'
+  },
+  {
+    id:9, title:'Apprendre le piano',
+    desc:"Jouer Satie le soir, juste pour soi. Pas de performance, pas de public — juste les touches et le silence entre elles.",
+    constellation:'musea', status:'dream',
+    x:0.31, y:0.80, size:8,
+    date:'Un jour'
+  },
+  {
+    id:10, title:'Créer un court-métrage',
+    desc:"Une histoire courte, filmée avec ce qu'on a. Apprendre à voir une scène, à la découper, à la faire résonner.",
+    constellation:'musea', status:'dream',
+    x:0.14, y:0.78, size:7,
+    date:'Un jour'
+  },
+
+  // SOPHIA — savoir zone (bottom-right)
+  {
+    id:11, title:'Obtenir mon diplôme',
+    desc:"Finir UC Berkeley avec fierté. Tout ce travail, toutes ces nuits, chaque doute qu'il a fallu traverser — ça valait la peine.",
+    constellation:'sophia', status:'done',
+    x:0.70, y:0.65, size:16,
+    date:'Accompli ✦'
+  },
+  {
+    id:12, title:"Parler l'espagnol couramment",
+    desc:"Une troisième langue. Ouvrir une troisième fenêtre sur le monde. Peut-être se perdre un peu à Barcelone, sans avoir à traduire.",
+    constellation:'sophia', status:'dream',
+    x:0.80, y:0.76, size:8,
+    date:'Un jour'
+  },
+  {
+    id:13, title:'Lire 50 livres en un an',
+    desc:"Pas par performance. Juste l'habitude de s'asseoir avec un livre chaque soir, et de laisser quelqu'un d'autre penser à ma place pour un moment.",
+    constellation:'sophia', status:'dream',
+    x:0.64, y:0.78, size:7,
+    date:'Un jour'
+  },
+];
+
+
+// ════════════════════════════════════════════════
+//  CANVAS + STATE
+// ════════════════════════════════════════════════
+
+const canvas = document.getElementById('sky');
+const ctx = canvas.getContext('2d');
+let W, H, dpr;
+
+// ── Background starfield ──
+const bgStars = [];
+function initBgStars() {
+  bgStars.length = 0;
+  const count = Math.floor((W * H) / 2800);
+  for (let i = 0; i < count; i++) {
+    bgStars.push({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 0.9 + 0.15,
+      alpha: Math.random() * 0.5 + 0.1,
+      speed: 0.0005 + Math.random() * 0.0015,
+      phase: Math.random() * Math.PI * 2,
+    });
+  }
+}
+
+function resize() {
+  dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+  initBgStars();
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ── Shooting stars ──
+const shooters = [];
+function spawnShooter() {
+  shooters.push({
+    x: Math.random() * 0.6 + 0.05,
+    y: Math.random() * 0.25,
+    vx: 0.0045 + Math.random() * 0.003,
+    vy: 0.0020 + Math.random() * 0.0015,
+    len: 100 + Math.random() * 100,
+    life: 0,
+    maxLife: 55 + Math.random() * 35,
+  });
+}
+function scheduleShooter() {
+  setTimeout(() => { spawnShooter(); scheduleShooter(); }, 4000 + Math.random() * 9000);
+}
+scheduleShooter();
+
+// ── Mouse / interaction ──
+let mx = -9999, my = -9999;
+let px = 0, py = 0; // parallax
+let hoveredDream = null;
+
+canvas.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  px = (e.clientX / W - 0.5) * 14;
+  py = (e.clientY / H - 0.5) * 10;
+  hoveredDream = null;
+  for (const d of DREAMS) {
+    const ds = d.size * (d.status === 'done' ? 1.5 : 1.0);
+    if (Math.hypot(mx - d.x * W, my - d.y * H) < ds + 14) {
+      hoveredDream = d;
+      break;
+    }
+  }
+  canvas.style.cursor = hoveredDream ? 'pointer' : 'default';
+});
+canvas.addEventListener('mouseleave', () => { hoveredDream = null; });
+canvas.addEventListener('click', e => { if (hoveredDream) openModal(hoveredDream); });
+
+
+// ════════════════════════════════════════════════
+//  DRAW HELPERS
+// ════════════════════════════════════════════════
+
+function starColor(status) {
+  if (status === 'done')    return [255, 255, 255];
+  if (status === 'ongoing') return [255, 215, 75];
+  return [148, 178, 255];
+}
+
+function drawNebula(cx, cy, rx, ry, r, g, b, alpha = 0.22) {
+  const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+  grd.addColorStop(0,   `rgba(${r},${g},${b},${alpha})`);
+  grd.addColorStop(0.45,`rgba(${r},${g},${b},${alpha * 0.45})`);
+  grd.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+  ctx.save();
+  ctx.scale(rx / Math.max(rx, ry), ry / Math.max(rx, ry));
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.arc(cx / (rx / Math.max(rx, ry)), cy / (ry / Math.max(rx, ry)), Math.max(rx, ry), 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawNebulaEllipse(cx, cy, rx, ry, r, g, b, alpha = 0.22) {
+  const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 1);
+  grd.addColorStop(0,   `rgba(${r},${g},${b},${alpha})`);
+  grd.addColorStop(0.5, `rgba(${r},${g},${b},${alpha * 0.4})`);
+  grd.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(rx, ry);
+  const grd2 = ctx.createRadialGradient(0,0,0, 0,0,1);
+  grd2.addColorStop(0,   `rgba(${r},${g},${b},${alpha})`);
+  grd2.addColorStop(0.55,`rgba(${r},${g},${b},${alpha * 0.35})`);
+  grd2.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+  ctx.fillStyle = grd2;
+  ctx.beginPath();
+  ctx.arc(0, 0, 1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// Star glyph — 4-point diffraction star
+function drawStarGlyph(x, y, r, [rc, gc, bc], intensity = 1, isHovered = false) {
+  const tw = 0.75 + 0.25 * intensity;
+
+  // Outer atmosphere glow
+  const atmR = r * (isHovered ? 7 : 4.5);
+  const atm = ctx.createRadialGradient(x, y, 0, x, y, atmR);
+  atm.addColorStop(0,   `rgba(${rc},${gc},${bc},${0.14 * tw})`);
+  atm.addColorStop(0.4, `rgba(${rc},${gc},${bc},${0.05 * tw})`);
+  atm.addColorStop(1,   `rgba(${rc},${gc},${bc},0)`);
+  ctx.fillStyle = atm;
+  ctx.beginPath(); ctx.arc(x, y, atmR, 0, Math.PI * 2); ctx.fill();
+
+  // Core glow
+  const coreR = r * 2.2;
+  const core = ctx.createRadialGradient(x, y, 0, x, y, coreR);
+  core.addColorStop(0,   `rgba(255,255,255,${0.9 * tw})`);
+  core.addColorStop(0.25,`rgba(${rc},${gc},${bc},${0.7 * tw})`);
+  core.addColorStop(1,   `rgba(${rc},${gc},${bc},0)`);
+  ctx.fillStyle = core;
+  ctx.beginPath(); ctx.arc(x, y, coreR, 0, Math.PI * 2); ctx.fill();
+
+  // Hard star center
+  ctx.fillStyle = `rgba(255,255,255,${0.97 * tw})`;
+  ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0, Math.PI * 2); ctx.fill();
+
+  // Diffraction spikes
+  const spikeLen = r * (isHovered ? 5.5 : 4.0);
+  const secondaryLen = r * (isHovered ? 3.5 : 2.5);
+  const spikeAlpha = isHovered ? 0.55 : 0.3;
+
+  // 4 main spikes
+  const mainAngles = [0, Math.PI / 2, Math.PI, Math.PI * 3/2];
+  for (const angle of mainAngles) {
+    const ex = x + Math.cos(angle) * spikeLen;
+    const ey = y + Math.sin(angle) * spikeLen;
+    const sp = ctx.createLinearGradient(x, y, ex, ey);
+    sp.addColorStop(0,   `rgba(${rc},${gc},${bc},${spikeAlpha * tw})`);
+    sp.addColorStop(0.6, `rgba(${rc},${gc},${bc},${spikeAlpha * 0.3 * tw})`);
+    sp.addColorStop(1,   `rgba(${rc},${gc},${bc},0)`);
+    ctx.strokeStyle = sp;
+    ctx.lineWidth = r * 0.35;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x - Math.cos(angle) * r * 0.3, y - Math.sin(angle) * r * 0.3);
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+  }
+
+  // 4 diagonal secondary spikes (only for larger stars)
+  if (r >= 8) {
+    const diagAngles = [Math.PI/4, Math.PI*3/4, Math.PI*5/4, Math.PI*7/4];
+    for (const angle of diagAngles) {
+      const ex = x + Math.cos(angle) * secondaryLen;
+      const ey = y + Math.sin(angle) * secondaryLen;
+      const sp = ctx.createLinearGradient(x, y, ex, ey);
+      sp.addColorStop(0,   `rgba(${rc},${gc},${bc},${spikeAlpha * 0.5 * tw})`);
+      sp.addColorStop(1,   `rgba(${rc},${gc},${bc},0)`);
+      ctx.strokeStyle = sp;
+      ctx.lineWidth = r * 0.18;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+    }
+  }
+}
+
+function drawConstellationLines() {
+  // Build groups
+  const groups = {};
+  for (const d of DREAMS) {
+    if (!groups[d.constellation]) groups[d.constellation] = [];
+    groups[d.constellation].push(d);
+  }
+
+  for (const [cid, stars] of Object.entries(groups)) {
+    const cdef = CONSTELLATIONS[cid];
+    if (!cdef) continue;
+    const [cr, cg, cb] = cdef.color;
+    const links = cdef.links.map(([a,b]) => [stars[a], stars[b]]).filter(([a,b])=>a&&b);
+
+    for (const [a, b] of links) {
+      const ax = a.x * W, ay = a.y * H;
+      const bx = b.x * W, by = b.y * H;
+
+      // Faint glow line
+      ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.07)`;
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+
+      // Animated dashes
+      ctx.save();
+      ctx.setLineDash([3, 10]);
+      ctx.lineDashOffset = -(t * 0.25);
+      ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.18)`;
+      ctx.lineWidth = 0.7;
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+      ctx.restore();
+    }
+
+    // Constellation name — centroid
+    const cx = stars.reduce((s, d) => s + d.x, 0) / stars.length;
+    const cy = stars.reduce((s, d) => s + d.y, 0) / stars.length;
+
+    ctx.save();
+    ctx.font = '300 8.5px "Cinzel", serif';
+    ctx.fillStyle = `rgba(${cr},${cg},${cb},0.22)`;
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '0.25em';
+    const label = (cdef.name + '  ·  ' + cdef.label).toUpperCase();
+    ctx.fillText(label, cx * W, cy * H + 52);
+    ctx.restore();
+  }
+}
+
+function drawBgStars() {
+  for (const s of bgStars) {
+    const tw = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed * 90 + s.phase));
+    const a = s.alpha * tw;
+    ctx.fillStyle = `rgba(215,225,255,${a})`;
+    ctx.beginPath();
+    ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawShooters() {
+  for (let i = shooters.length - 1; i >= 0; i--) {
+    const s = shooters[i];
+    s.life++;
+    const prog = s.life / s.maxLife;
+    const alpha = prog < 0.25 ? (prog / 0.25) : (1 - (prog - 0.25) / 0.75);
+    s.x += s.vx; s.y += s.vy;
+
+    const ex = s.x * W, ey = s.y * H;
+    const sx2 = ex - s.vx * s.len * 55;
+    const sy2 = ey - s.vy * s.len * 55;
+
+    const grd = ctx.createLinearGradient(sx2, sy2, ex, ey);
+    grd.addColorStop(0, `rgba(210,225,255,0)`);
+    grd.addColorStop(0.7,`rgba(220,235,255,${alpha * 0.5})`);
+    grd.addColorStop(1, `rgba(240,248,255,${alpha * 0.85})`);
+    ctx.strokeStyle = grd;
+    ctx.lineWidth = 0.9;
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(sx2, sy2); ctx.lineTo(ex, ey); ctx.stroke();
+
+    // sparkle head
+    ctx.fillStyle = `rgba(240,248,255,${alpha * 0.7})`;
+    ctx.beginPath(); ctx.arc(ex, ey, 1.3, 0, Math.PI * 2); ctx.fill();
+
+    if (s.life >= s.maxLife || s.x > 1.15 || s.y > 1.1) shooters.splice(i, 1);
+  }
+}
+
+function drawHoverLabel(d) {
+  const x = d.x * W, y = d.y * H;
+  const [rc, gc, bc] = starColor(d.status);
+  const labelY = y - d.size * 3.5 - 16;
+
+  ctx.save();
+  ctx.font = '300 13px "Cormorant Garamond", serif';
+  ctx.textAlign = 'center';
+
+  // Measure for bg
+  const tw = ctx.measureText(d.title).width;
+  const pad = 14;
+  const bx = x - tw/2 - pad;
+  const by = labelY - 14;
+  const bw = tw + pad * 2;
+  const bh = 22;
+
+  // Pill background
+  ctx.fillStyle = 'rgba(4, 10, 28, 0.72)';
+  ctx.beginPath();
+  ctx.roundRect(bx, by, bw, bh, 6);
+  ctx.fill();
+  ctx.strokeStyle = `rgba(${rc},${gc},${bc},0.18)`;
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+
+  // Text
+  ctx.fillStyle = `rgba(${rc + 80},${gc + 80},${bc + 80 > 255 ? 255 : bc + 80}, 0.88)`;
+  ctx.fillText(d.title, x, labelY);
+  ctx.restore();
+}
+
+
+// ════════════════════════════════════════════════
+//  RENDER LOOP
+// ════════════════════════════════════════════════
+
+let t = 0;
+
+function render() {
+  t++;
+  ctx.clearRect(0, 0, W, H);
+
+  // Deep space base
+  const bg = ctx.createRadialGradient(W * 0.4, H * 0.35, 0, W * 0.5, H * 0.5, Math.max(W, H));
+  bg.addColorStop(0,   '#0a1228');
+  bg.addColorStop(0.4, '#05090f');
+  bg.addColorStop(1,   '#02040a');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Nebulae — one per constellation zone
+  drawNebulaEllipse(W * 0.25, H * 0.32, W * 0.22, H * 0.20, 40, 28, 5,  0.20); // mercurius — amber
+  drawNebulaEllipse(W * 0.78, H * 0.28, W * 0.20, H * 0.22, 5, 35, 55,  0.18); // peregrina — blue
+  drawNebulaEllipse(W * 0.22, H * 0.74, W * 0.20, H * 0.18, 35, 8, 55,  0.17); // musea — violet
+  drawNebulaEllipse(W * 0.72, H * 0.72, W * 0.20, H * 0.18, 5, 45, 35,  0.17); // sophia — teal
+
+  // Milky way faint band
+  ctx.save();
+  const mw = ctx.createLinearGradient(0, H * 0.1, W, H * 0.9);
+  mw.addColorStop(0,   'rgba(20,25,60,0)');
+  mw.addColorStop(0.3, 'rgba(20,25,55,0.07)');
+  mw.addColorStop(0.5, 'rgba(22,28,65,0.12)');
+  mw.addColorStop(0.7, 'rgba(20,25,55,0.07)');
+  mw.addColorStop(1,   'rgba(20,25,60,0)');
+  ctx.fillStyle = mw;
+  ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+
+  drawBgStars();
+  drawShooters();
+
+  // Parallax shift for dream layer
+  ctx.save();
+  ctx.translate(px, py);
+  drawConstellationLines();
+
+  // Draw dream stars
+  for (const d of DREAMS) {
+    const isHov = hoveredDream === d;
+    const sc = starColor(d.status);
+    const tw = 0.6 + 0.4 * (0.5 + 0.5 * Math.sin(t * 0.018 + d.id * 2.1));
+    drawStarGlyph(d.x * W, d.y * H, d.size, sc, tw, isHov);
+  }
+
+  // Hover label on top
+  if (hoveredDream) drawHoverLabel(hoveredDream);
+
+  ctx.restore();
+  requestAnimationFrame(render);
+}
+
+render();
+
+
+// ════════════════════════════════════════════════
+//  MODAL
+// ════════════════════════════════════════════════
+
+const CONST_LABEL = {
+  mercurius: 'Constellation Mercurius · L\'Entrepreneur',
+  peregrina: 'Constellation Peregrina · Le Voyageur',
+  musea:     'Constellation Musea · La Muse',
+  sophia:    'Constellation Sophia · Le Savoir',
+};
+const STATUS_COLOR = { dream:'#9eb8ff', ongoing:'#ffd060', done:'#ffffff' };
+const STATUS_LABEL = { dream:'Rêve', ongoing:'En cours', done:'Accompli' };
+
+function openModal(d) {
+  document.getElementById('m-const').textContent  = CONST_LABEL[d.constellation] || '';
+  document.getElementById('m-title').textContent  = d.title;
+  document.getElementById('m-desc').textContent   = d.desc;
+  document.getElementById('m-status').textContent = STATUS_LABEL[d.status] || '';
+  document.getElementById('m-date').textContent   = d.date || '';
+  const dot = document.getElementById('m-dot');
+  dot.style.background  = STATUS_COLOR[d.status] || '#9eb8ff';
+  dot.style.boxShadow   = `0 0 7px ${STATUS_COLOR[d.status] || '#9eb8ff'}`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+// Stats
+document.getElementById('s-total').textContent   = DREAMS.length;
+document.getElementById('s-ongoing').textContent = DREAMS.filter(d=>d.status==='ongoing').length;
+document.getElementById('s-done').textContent    = DREAMS.filter(d=>d.status==='done').length;
+</script>
+</body>
+</html>
