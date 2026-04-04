@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TotalEnergies Study — industry research project by Paul Zabotto." />
+  <title>TotalEnergies Study — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../../css/main.css" />
+
+  <style>
+    /* PDF viewer */
+    .pdf-wrapper {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      background: var(--color-surface);
+    }
+
+    .pdf-frame {
+      display: block;
+      width: 100%;
+      height: 70vh;
+      min-height: 500px;
+      border: none;
+    }
+
+    /* Fallback shown when the browser can't render the PDF inline */
+    .pdf-fallback {
+      display: none;
+      padding: var(--space-12) var(--space-8);
+      text-align: center;
+    }
+    .pdf-fallback p {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--space-6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════ -->
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="../../index.html" class="nav-logo">Paul Zabotto</a>
+      <ul class="nav-links" role="list">
+        <li><a href="../../developer/index.html" class="nav-link is-active" aria-current="page">Developer</a></li>
+        <li><a href="../../hobbies/index.html"   class="nav-link">Hobbies</a></li>
+        <li><a href="../../reves/index.html"     class="nav-link">Rêves</a></li>
+        <li><a href="../../contact/index.html"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ══════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════ -->
+  <main id="main-content">
+    <div class="container">
+
+      <!-- Back link -->
+      <div style="padding-top: calc(var(--nav-height) + var(--space-8)); margin-bottom: var(--space-8);">
+        <a href="../../developer/index.html" class="btn btn-ghost btn-sm">&larr; All projects</a>
+      </div>
+
+      <!-- Page header -->
+      <header style="margin-bottom: var(--space-12);">
+        <div class="tags will-animate" style="margin-bottom: var(--space-4);">
+          <span class="tag">Research</span>
+          <span class="tag">Data</span>
+        </div>
+
+        <h1 class="will-animate" data-delay="1" style="
+          font-size: clamp(var(--font-size-xl), 4vw, var(--font-size-2xl));
+          font-weight: 700;
+          margin-bottom: var(--space-4);
+        ">
+          TotalEnergies Study
+        </h1>
+
+        <p class="will-animate text-muted text-sm" data-delay="2">
+          <span style="font-family: var(--font-mono);">2024</span>
+          &nbsp;&mdash;&nbsp;
+          Industry Research &middot; Data Analysis
+        </p>
+      </header>
+
+      <!-- Two-column layout (matches other project pages) -->
+      <div class="will-animate" data-delay="3" style="
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: var(--space-12);
+        align-items: start;
+        margin-bottom: var(--space-16);
+      ">
+
+        <!-- LEFT — Overview -->
+        <article style="max-width: 680px;">
+          <section style="margin-bottom: var(--space-8);">
+            <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+              Overview
+            </h2>
+            <p style="color: var(--color-text-muted); line-height: var(--line-height-normal);">
+              Industry research project conducted in partnership with TotalEnergies.
+              The study focuses on data-driven analysis to support strategic decision-making
+              within a large-scale energy context.
+            </p>
+          </section>
+
+          <section style="margin-bottom: var(--space-8);">
+            <h2 style="font-size: var(--font-size-md); margin-bottom: var(--space-4); color: var(--color-accent);">
+              Approach
+            </h2>
+            <p style="color: var(--color-text-muted); line-height: var(--line-height-normal);">
+              Applied data analysis and research methodology to an industry-scale dataset,
+              combining quantitative modelling with strategic framing to produce
+              actionable findings.
+            </p>
+          </section>
+        </article>
+
+        <!-- RIGHT — Sidebar -->
+        <aside style="
+          background-color: var(--color-surface);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          padding: var(--space-6);
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-6);
+        ">
+
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Year</p>
+            <p style="font-size: var(--font-size-sm); color: var(--color-text);">2024</p>
+          </div>
+
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Type</p>
+            <div class="tags">
+              <span class="tag">Research</span>
+              <span class="tag">Data</span>
+            </div>
+          </div>
+
+          <div>
+            <p style="font-family: var(--font-mono); font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-2);">Paper</p>
+            <a
+              href="../../assets/pdfs/totalenergies-study.pdf"
+              class="btn btn-primary btn-sm"
+              download
+              style="width: 100%; justify-content: center;"
+            >
+              Download PDF &#8595;
+            </a>
+          </div>
+
+        </aside>
+
+      </div><!-- /two-column -->
+
+      <!-- ── PDF VIEWER ────────────────────────────── -->
+      <section class="will-animate" data-delay="4" style="margin-bottom: var(--space-24);">
+        <h2 style="
+          font-size: var(--font-size-md);
+          margin-bottom: var(--space-6);
+          color: var(--color-accent);
+          font-family: var(--font-mono);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          font-size: var(--font-size-xs);
+        ">
+          Full paper
+        </h2>
+
+        <div class="pdf-wrapper">
+
+          <!-- Inline PDF — works in Chrome, Firefox, Edge, Safari desktop -->
+          <iframe
+            class="pdf-frame"
+            src="../../assets/pdfs/totalenergies-study.pdf"
+            title="TotalEnergies Study — full paper"
+            aria-label="PDF viewer: TotalEnergies Study paper"
+          ></iframe>
+
+          <!--
+            Fallback: shown if the browser blocks inline PDFs (e.g. some mobile browsers).
+            The JS below detects load failure and reveals this block.
+          -->
+          <div class="pdf-fallback" id="pdf-fallback">
+            <p>Your browser doesn't support inline PDF viewing.</p>
+            <a
+              href="../../assets/pdfs/totalenergies-study.pdf"
+              class="btn btn-primary"
+              download
+            >
+              Download the paper &#8595;
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <p class="text-sm text-muted">
+        &copy; <span id="footer-year"></span> Paul Zabotto
+      </p>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════════ -->
+  <script src="../../js/core/nav.js"               defer></script>
+  <script src="../../js/core/animations.js"        defer></script>
+  <script src="../../js/components/transitions.js" defer></script>
+  <script src="../../js/main.js"                   defer></script>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    // If the iframe fails to load the PDF, reveal the download fallback instead
+    const frame = document.querySelector('.pdf-frame');
+    const fallback = document.getElementById('pdf-fallback');
+    frame.addEventListener('error', () => {
+      frame.style.display = 'none';
+      fallback.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>

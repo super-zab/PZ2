@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="404 — Page not found." />
+  <title>404 — Paul Zabotto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/css/main.css" />
+
+  <style>
+    .error-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-8);
+      padding-top: var(--nav-height);
+    }
+
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: clamp(5rem, 18vw, 10rem);
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      background: linear-gradient(
+        135deg,
+        var(--color-accent) 0%,
+        var(--color-accent-dim) 50%,
+        rgba(232, 196, 106, 0.2) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      margin-bottom: var(--space-6);
+      letter-spacing: -0.04em;
+    }
+
+    .error-title {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-6);
+      line-height: var(--line-height-tight);
+    }
+
+    .error-joke {
+      max-width: 520px;
+      font-size: var(--font-size-md);
+      color: var(--color-text-muted);
+      line-height: var(--line-height-normal);
+      margin-bottom: var(--space-4);
+    }
+
+    .error-sub {
+      max-width: 480px;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      line-height: var(--line-height-normal);
+      margin-bottom: var(--space-12);
+      opacity: 0.7;
+    }
+
+    .error-status-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: var(--space-2) var(--space-4);
+      margin-bottom: var(--space-12);
+      opacity: 0.6;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-danger);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    .error-actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .error-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--color-border);
+      margin: var(--space-12) auto;
+    }
+
+    .error-suggestions {
+      font-family: var(--font-mono);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      opacity: 0.5;
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════ -->
+  <header>
+    <nav class="site-nav" role="navigation" aria-label="Main navigation">
+      <a href="/" class="nav-logo">Paul Zabotto</a>
+      <ul class="nav-links" role="list">
+        <li><a href="/developer/" class="nav-link">Developer</a></li>
+        <li><a href="/hobbies/"   class="nav-link">Hobbies</a></li>
+        <li><a href="/reves/"     class="nav-link">Rêves</a></li>
+        <li><a href="/contact/"   class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ══════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════ -->
+  <main id="main-content">
+    <div class="error-page">
+
+      <div class="error-code" aria-hidden="true">404</div>
+
+      <h1 class="error-title">
+        Ah. This page doesn't exist yet.
+      </h1>
+
+      <p class="error-joke">
+        It's not missing — it's <em>en gestation</em>.
+        Like my startup, this content is a great idea that just hasn't shipped yet.
+      </p>
+
+      <p class="error-sub">
+        In the meantime, the rest of the site is fully operational.
+        The coffee, however, is on you.
+      </p>
+
+      <!-- Fake terminal status indicator -->
+      <div class="error-status-bar" role="status" aria-label="Page status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>GET&nbsp;</span>
+        <span id="missing-path" style="color: var(--color-danger);">/???</span>
+        <span>&nbsp;→&nbsp;404 Not Found</span>
+      </div>
+
+      <div class="error-actions">
+        <a href="/" class="btn btn-primary">
+          &larr; Back to home
+        </a>
+        <a href="/developer/" class="btn btn-ghost">
+          See my work
+        </a>
+        <a href="/reves/" class="btn btn-ghost">
+          Visit the dream sky ✦
+        </a>
+      </div>
+
+      <div class="error-divider" aria-hidden="true"></div>
+
+      <p class="error-suggestions">
+        // if you typed a URL manually, check for typos
+      </p>
+
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════════ -->
+  <script src="/js/core/nav.js"               defer></script>
+  <script src="/js/core/animations.js"        defer></script>
+  <script src="/js/components/transitions.js" defer></script>
+
+  <script>
+    // Show the actual path the user tried to reach
+    document.getElementById('missing-path').textContent =
+      window.location.pathname || '/???';
+  </script>
+
+</body>
+</html>
