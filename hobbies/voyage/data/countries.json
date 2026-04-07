@@ -4,7 +4,7 @@
       "iso": "ZAF",
       "name": "Afrique du sud",
       "color": "#FF6B6B",
-      "continent": "Europe",
+      "continent": "Africa",
       "visits": [
         {
           "year": 2023,
@@ -26,7 +26,7 @@
       "iso": "USA",
       "name": "New Jersey",
       "color": "#FF8E8E",
-      "continent": "Europe",
+      "continent": "North America",
       "visits": [
         {
           "year": 2023,
@@ -134,7 +134,7 @@
       "iso": "PHL",
       "name": "Philippines",
       "color": "#FFB1B1",
-      "continent": "Europe",
+      "continent": "Asia",
       "visits": [
         {
           "year": 3,
@@ -188,7 +188,7 @@
       "iso": "TWN",
       "name": "Taïwan",
       "color": "#FFD4D4",
-      "continent": "Europe",
+      "continent": "Asia",
       "visits": [
         {
           "year": 2023,
@@ -239,7 +239,7 @@
       "iso": "COL",
       "name": "Colombie",
       "color": "#FF9AA2",
-      "continent": "Europe",
+      "continent": "South America",
       "visits": [
         {
           "year": 2023,
@@ -453,7 +453,7 @@
       "iso": "REU",
       "name": "La Réunion",
       "color": "#FF8E8E",
-      "continent": "Europe",
+      "continent": "Africa",
       "visits": [
         {
           "year": 2023,
@@ -950,7 +950,7 @@
       "iso": "BOL",
       "name": "Bolivie",
       "color": "#FFB1B1",
-      "continent": "Europe",
+      "continent": "South America",
       "visits": [
         {
           "year": 2023,
@@ -1090,7 +1090,7 @@
       "iso": "BLZ",
       "name": "Bélize",
       "color": "#FFD4C4",
-      "continent": "Europe",
+      "continent": "North America",
       "visits": [
         {
           "year": 2023,
@@ -1107,7 +1107,7 @@
       "iso": "GTM",
       "name": "Guatemala",
       "color": "#FFE6D9",
-      "continent": "Europe",
+      "continent": "North America",
       "visits": [
         {
           "year": 2023,
@@ -1244,7 +1244,7 @@
       "iso": "NPL",
       "name": "Nepal",
       "color": "#FF6B6B",
-      "continent": "Europe",
+      "continent": "Asia",
       "visits": [
         {
           "year": 2023,
