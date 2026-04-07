@@ -34,61 +34,99 @@ html, body {
 }
 
 /* ============================================================
-   MAP
+   GLOBE CONTAINER
    ============================================================ */
-#map {
-    width: 100vw;
-    height: calc(100vh - 70px); /* 70px = portfolio nav height */
-    margin-top: 70px;
+#globe {
+    position: fixed;
+    top: 70px; /* portfolio nav height */
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: var(--bg);
-    cursor: crosshair;
+    cursor: grab;
 }
 
-.leaflet-container {
-    background: var(--bg) !important;
-    font-family: inherit;
+#globe:active {
+    cursor: grabbing;
 }
 
-/* Zoom control */
-.leaflet-control-zoom {
-    border: none !important;
-    box-shadow: none !important;
-    margin-bottom: 80px !important;
+/* Globe.gl renders its canvas inside #globe automatically */
+#globe canvas {
+    display: block;
 }
 
-.leaflet-control-zoom a {
-    background: var(--surface-2) !important;
-    color: var(--text-dim) !important;
-    border: 1px solid var(--border) !important;
-    width: 34px !important;
-    height: 34px !important;
-    line-height: 32px !important;
-    font-size: 18px !important;
-    transition: background 0.15s ease, color 0.15s ease !important;
+/* ── Loading state ───────────────────────────── */
+#globe-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text-mute);
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 0.6s ease;
 }
 
-.leaflet-control-zoom a:hover {
-    background: var(--surface-3) !important;
-    color: var(--text) !important;
-    border-color: var(--border-md) !important;
+#globe-loading.hidden {
+    opacity: 0;
 }
 
-.leaflet-control-zoom-in  { border-radius: 8px 8px 0 0 !important; }
-.leaflet-control-zoom-out { border-radius: 0 0 8px 8px !important; border-top: none !important; }
-
-/* Attribution */
-.leaflet-control-attribution {
-    background: rgba(7, 7, 15, 0.75) !important;
-    color: var(--text-mute) !important;
-    font-size: 10px !important;
-    border-radius: 6px 0 0 0 !important;
-    backdrop-filter: blur(8px);
+.globe-loading-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(238, 238, 255, 0.3);
+    animation: dotPulse 1.4s ease-in-out infinite;
 }
 
-.leaflet-control-attribution a { color: var(--text-dim) !important; }
+/* ── Drag hint ───────────────────────────────── */
+#globe-hint {
+    position: fixed;
+    bottom: 88px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+    pointer-events: none;
+    z-index: 800;
+    animation: fadeInHint 0.8s var(--ease-out) 2s both;
+    transition: opacity 1s ease;
+}
 
-/* Kill default popups — using side panel instead */
-.leaflet-popup { display: none !important; }
+#globe-hint.hidden {
+    opacity: 0;
+}
+
+#globe-hint svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+}
+
+/* ── Globe.gl tooltip (country name on hover) ── */
+.scene-tooltip {
+    background: rgba(14, 14, 28, 0.92) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px !important;
+    padding: 7px 13px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: rgba(238, 238, 255, 0.88) !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+}
 
 /* ============================================================
    STATS BAR
@@ -149,7 +187,7 @@ html, body {
    ============================================================ */
 #side-panel {
     position: fixed;
-    top: 70px; /* sits below the 70px portfolio nav */
+    top: 70px;
     right: 0;
     width: var(--panel-w);
     height: calc(100vh - 70px);
@@ -354,9 +392,6 @@ html, body {
     inset: 0;
     background: rgba(0, 0, 0, 0);
     transition: background 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .thumb:hover .thumb-overlay {
@@ -417,41 +452,6 @@ html, body {
     font-size: 12px;
     color: var(--text-dim);
     line-height: 1.55;
-}
-
-/* ============================================================
-   MARKERS
-   ============================================================ */
-.custom-marker {
-    background: transparent !important;
-    border: none !important;
-    overflow: visible !important;
-}
-
-.marker-wrap {
-    position: relative;
-    width: 12px;
-    height: 12px;
-}
-
-.marker-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.85);
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-}
-
-.marker-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px solid;
-    animation: markerPulse 2.5s ease-out infinite;
-    transform-origin: center;
 }
 
 /* ============================================================
@@ -581,10 +581,14 @@ html, body {
     to   { opacity: 1; transform: translateX(-50%) translateY(0);    }
 }
 
-@keyframes markerPulse {
-    0%   { transform: scale(0.9); opacity: 0.7; }
-    60%  { transform: scale(2.6); opacity: 0;   }
-    100% { transform: scale(2.6); opacity: 0;   }
+@keyframes fadeInHint {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0);   }
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50%       { opacity: 1;   transform: scale(1.2); }
 }
 
 @keyframes fadeSlideIn {
@@ -625,4 +629,6 @@ html, body {
 
     #lb-prev { left: 10px; }
     #lb-next { right: 10px; }
+
+    #globe-hint { display: none; }
 }
